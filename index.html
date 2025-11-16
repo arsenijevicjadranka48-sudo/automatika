@@ -3,16 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arduino & Automatika - Projekti i Komponente</title>
+  <title>Automatika Pro</title>
 
   <style>
-    * { scroll-behavior: smooth; margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      line-height: 1.6;
+      background: #f5f5f5;
     }
 
     /* HEADER */
     header {
-      background
+      width: 100%;
+      height: 280px; /* SMANJENA SLIKA 👌 */
+      background-image: url("img/header.jpg"); /* promijeni ako treba */
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 38px;
+      font-weight: bold;
+      text-shadow: 2px 2px 5px black;
+    }
+
+    nav {
+      background: #222;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    nav a:hover {
+      color: #00c3ff;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    Automatika Pro
+  </header>
+
+  <!-- NAVIGACIJA -->
+  <nav>
+    <a href="sections/about/about.html">O nama</a>
+    <a href="sections/faq/faq.html">FAQ</a>
+    <a href="sections/partners/partners.html">Partneri</a>
+    <a href="sections/contact/contact.html">Kontakt</a>
+  </nav>
+
+  <!-- SADRŽAJ POČETNE -->
+  <div class="container">
+    <h2>Dobrodošli!</h2>
+    <p>Ovdje možete pronaći informacije o našim uslugama, partnerima i često postavljanim pitanjima.</p>
+  </div>
+
+</body>
+</html>
