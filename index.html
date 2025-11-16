@@ -1,127 +1,18 @@
 <!DOCTYPE html>
 <html lang="bs">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automatika PRO – Industrijska rješenja</title>
-<style>
-* { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
-body { font-family: Arial, sans-serif; color:#222; background-color:#f5f5f5; }
-header { background-image: url('mca.jpg'); background-size: contain; background-repeat:no-repeat; background-position: center top; height: 300px; display:flex; flex-direction:column; justify-content:center; align-items:center; color:white; position:relative; text-align:center; }
-header::after { content:""; position:absolute; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.4); }
-header h1, header p, header a { position: relative; z-index: 2; }
-header h1 { font-size: 2em; margin-bottom:10px; }
-header p { font-size:1.1em; margin-bottom:15px; }
-header a { background:#ffcc00; color:#000; padding:10px 20px; text-decoration:none; border-radius:5px; font-weight:bold; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arduino & Automatika - Projekti i Komponente</title>
 
-nav { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; background:#003366; padding:10px; }
-nav a { color:white; text-decoration:none; font-weight:bold; padding:8px 12px; border-radius:5px; }
-nav a:hover { background:#ffcc00; color:#000; }
+  <style>
+    * { scroll-behavior: smooth; margin: 0; padding: 0; box-sizing: border-box; }
 
-section { padding:50px 20px; background:white; margin:20px auto; max-width:1000px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); position: relative; }
-section .back-top { display:block; text-align:center; margin-top:30px; }
-section .back-top a { background:#003366; color:white; padding:10px 20px; border-radius:5px; text-decoration:none; font-weight:bold; }
-section .back-top a:hover { background:#0059b3; }
-
-h2 { color:#003366; margin-bottom:15px; }
-p, li { margin-bottom:15px; line-height:1.6; }
-ul { margin-left:20px; }
-
-.lang { display:none; }
-.lang-bs { display:block; }
-</style>
-</head>
-<body id="top">
-
-<!-- HEADER -->
-<header>
-  <h1 class="lang lang-bs">Automatika PRO – Industrijska rješenja</h1>
-  <h1 class="lang lang-en">Automatika PRO – Industrial Solutions</h1>
-  <h1 class="lang lang-de">Automatika PRO – Industrielle Lösungen</h1>
-
-  <p class="lang lang-bs">Profesionalno programiranje, projektovanje i izrada automatizovanih sistema – od ideje do gotovog rješenja.</p>
-  <p class="lang lang-en">Professional programming, design, and implementation of automated systems – from concept to finished solution.</p>
-  <p class="lang lang-de">Professionelle Programmierung, Planung und Umsetzung automatisierter Systeme – von der Idee bis zur fertigen Lösung.</p>
-
-  <a href="#about-container" class="lang lang-bs">Saznaj više</a>
-  <a href="#about-container" class="lang lang-en">Learn more</a>
-  <a href="#about-container" class="lang lang-de">Mehr erfahren</a>
-</header>
-
-<!-- NAVIGACIJA -->
-<nav>
-  <!-- Jezik -->
-  <a onclick="setLang('bs')" href="#top">BS</a>
-  <a onclick="setLang('en')" href="#top">EN</a>
-  <a onclick="setLang('de')" href="#top">DE</a>
-
-  <!-- Sekcije -->
-  <a href="#about-container" class="lang lang-bs">O nama</a>
-  <a href="#about-container" class="lang lang-en">About</a>
-  <a href="#about-container" class="lang lang-de">Über uns</a>
-
-  <a href="#faq-container" class="lang lang-bs">FAQ</a>
-  <a href="#faq-container" class="lang lang-en">FAQ</a>
-  <a href="#faq-container" class="lang lang-de">FAQ</a>
-
-  <a href="#partners-container" class="lang lang-bs">Partneri</a>
-  <a href="#partners-container" class="lang lang-en">Partners</a>
-  <a href="#partners-container" class="lang lang-de">Partner</a>
-
-  <a href="#contact-container" class="lang lang-bs">Kontakt</a>
-  <a href="#contact-container" class="lang lang-en">Contact</a>
-  <a href="#contact-container" class="lang lang-de">Kontakt</a>
-</nav>
-
-<!-- SEKCIJE -->
-<div id="about-container"></div>
-<div id="faq-container"></div>
-<div id="partners-container"></div>
-<div id="contact-container"></div>
-<div id="footer-container"></div>
-
-<script>
-// Funkcija za prikaz jezika i učitavanje sekcija
-function setLang(lang){
-  document.querySelectorAll('.lang').forEach(el => el.style.display='none');
-  document.querySelectorAll('.lang-'+lang).forEach(el => el.style.display='block');
-
-  // Učitavanje sekcija prema jeziku
-  loadSection('about-container','sections/about/about.html','sections/about/aboutus.html','sections/about/aboutde.html', lang);
-  loadSection('faq-container','faq/faq.html','faq/faqen.html','faq/faqde.html', lang);
-  loadSection('partners-container','partners/partners.html','partners/partnerske.html','partners/partnerske.html', lang);
-  loadSection('contact-container','contact/contact.html','contact/contacten.html','contact/contactde.html', lang);
-  loadSection('footer-container','footer/footer.html','footer/footeren.html','footer/footerde.html', lang);
-}
-
-// Funkcija za učitavanje fajlova
-async function loadSection(containerId, fileBS, fileEN, fileDE, lang){
-  let file;
-  if(lang==='bs') file=fileBS;
-  else if(lang==='en') file=fileEN;
-  else if(lang==='de') file=fileDE;
-
-  try{
-    const response = await fetch(file);
-    if(response.ok){
-      let html = await response.text();
-      // Dodavanje dugmeta za povratak na vrh
-      html += `<div class="back-top"><a href="#top">⬆ Povratak na vrh</a></div>`;
-      document.getElementById(containerId).innerHTML = html;
-    }else{
-      document.getElementById(containerId).innerHTML = `<p style="color:red;">Greška pri učitavanju sekcije: ${file}</p>`;
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
     }
-  }catch(err){
-    document.getElementById(containerId).innerHTML = `<p style="color:red;">Greška pri učitavanju sekcije: ${file}</p>`;
-    console.error(err);
-  }
-}
 
-// Inicijalno učitavanje BS jezika
-document.addEventListener('DOMContentLoaded', () => {
-  setLang('bs');
-});
-</script>
-
-</body>
-</html>
+    /* HEADER */
+    header {
+      background
