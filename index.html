@@ -1,39 +1,104 @@
 <!DOCTYPE html>
 <html lang="bs">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Automatika Pro</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automatika PRO – Industrijska rješenja</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+body { font-family: Arial, sans-serif; color:#222; background-color:#f5f5f5; }
+header { background-image: url('mca.jpg'); background-size: cover; background-position: center; height: 350px; display:flex; flex-direction:column; justify-content:center; align-items:center; color:white; position:relative; text-align:center; }
+header::after { content:""; position:absolute; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.4); }
+header h1, header p, header a { position: relative; z-index: 2; }
+header h1 { font-size: 2.5em; margin-bottom:10px; }
+header p { font-size:1.2em; margin-bottom:15px; }
+header a { background:#ffcc00; color:#000; padding:10px 20px; text-decoration:none; border-radius:5px; font-weight:bold; }
+nav { display:flex; justify-content:center; gap:15px; background:#003366; padding:12px; flex-wrap:wrap; }
+nav a { color:white; cursor:pointer; text-decoration:none; font-weight:bold; }
+nav a:hover { color:#ffcc00; }
+section { padding:50px 20px; background:white; margin:20px auto; max-width:1000px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
+h2 { color:#003366; margin-bottom:15px; }
+p, li { margin-bottom:15px; line-height:1.6; }
+ul { margin-left:20px; }
+.lang { display:none; }
+.lang-bs { display:block; }
+</style>
+</head>
+<body>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
+<!-- HEADER -->
+<header>
+  <h1 class="lang lang-bs">Automatika PRO – Industrijska rješenja</h1>
+  <h1 class="lang lang-en">Automatika PRO – Industrial Solutions</h1>
+  <h1 class="lang lang-de">Automatika PRO – Industrielle Lösungen</h1>
+
+  <p class="lang lang-bs">Profesionalno programiranje, projektovanje i izrada automatizovanih sistema – od ideje do gotovog rješenja.</p>
+  <p class="lang lang-en">Professional programming, design, and implementation of automated systems – from concept to finished solution.</p>
+  <p class="lang lang-de">Professionelle Programmierung, Planung und Umsetzung automatisierter Systeme – von der Idee bis zur fertigen Lösung.</p>
+
+  <a href="#projekti" class="lang lang-bs">Saznaj više</a>
+  <a href="#projekti" class="lang lang-en">Learn more</a>
+  <a href="#projekti" class="lang lang-de">Mehr erfahren</a>
+</header>
+
+<!-- NAV -->
+<nav>
+  <a onclick="setLang('bs')">BS</a>
+  <a onclick="setLang('en')">EN</a>
+  <a onclick="setLang('de')">DE</a>
+</nav>
+
+<!-- SEKCIJE -->
+<div id="about-container"></div>
+<div id="faq-container"></div>
+<div id="partners-container"></div>
+<div id="contact-container"></div>
+<div id="footer-container"></div>
+
+<script>
+// Funkcija za prikaz jezika u headeru i statičkim elementima
+function setLang(lang){
+  document.querySelectorAll('.lang').forEach(el => el.style.display='none');
+  document.querySelectorAll('.lang-'+lang).forEach(el => el.style.display='block');
+
+  // Dinamičko učitavanje sekcija
+  loadSection('about-container','about/about.html','about/aboutus.html','about/aboutde.html', lang);
+  loadSection('faq-container','faq/faq.html','faq/faqen.html','faq/faqde.html', lang);
+  loadSection('partners-container','partners/partners.html','partners/partnerske.html','partners/partnerske.html', lang);
+  loadSection('contact-container','contact/contact.html','contact/contacten.html','contact/contactde.html', lang);
+  loadSection('footer-container','footer/footer.html','footer/footeren.html','footer/footerde.html', lang);
+}
+
+// Funkcija za dinamičko učitavanje HTML fajlova po jeziku
+async function loadSection(containerId, fileBS, fileEN, fileDE, lang){
+  let file;
+  if(lang === 'bs') file = fileBS;
+  else if(lang === 'en') file = fileEN;
+  else if(lang === 'de') file = fileDE;
+
+  try {
+    const response = await fetch(file);
+    if(response.ok){
+      const html = await response.text();
+      document.getElementById(containerId).innerHTML = html;
+    } else {
+      console.error('Greška pri učitavanju: ', file);
+      document.getElementById(containerId).innerHTML = `<p style="color:red;">Greška pri učitavanju sekcije.</p>`;
     }
+  } catch(err) {
+    console.error(err);
+    document.getElementById(containerId).innerHTML = `<p style="color:red;">Greška pri učitavanju sekcije.</p>`;
+  }
+}
 
-    /* HEADER */
-    header {
-      width: 100%;
-      height: 260px; /* smanjena slika */
-      background-image: url("img/header.jpg"); /* promijeni ime slike ako treba */
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 38px;
-      font-weight: bold;
-      text-shadow: 2px 2px 5px black;
-    }
+// Inicijalno učitaj BS jezik
+document.addEventListener('DOMContentLoaded', () => {
+  setLang('bs');
+});
+</script>
 
-    /* NAVIGACIJA */
-    nav {
-      background: #222;
-      padding: 12px;
-      display: flex;
-      justify-content: center;
+</body>
+</html>
       gap: 25px;
     }
 
