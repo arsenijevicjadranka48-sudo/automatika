@@ -15,8 +15,8 @@
     /* HEADER */
     header {
       width: 100%;
-      height: 280px; /* SMANJENA SLIKA 👌 */
-      background-image: url("img/header.jpg"); /* promijeni ako treba */
+      height: 260px; /* smanjena slika */
+      background-image: url("img/header.jpg"); /* promijeni ime slike ako treba */
       background-size: cover;
       background-position: center;
       display: flex;
@@ -28,12 +28,58 @@
       text-shadow: 2px 2px 5px black;
     }
 
+    /* NAVIGACIJA */
     nav {
       background: #222;
       padding: 12px;
       display: flex;
       justify-content: center;
       gap: 25px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    nav a:hover {
+      color: #00c3ff;
+    }
+
+    /* POČETNA */
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    Automatika Pro
+  </header>
+
+  <nav>
+    <a href="sections/about.html">O nama</a>
+    <a href="faq/faq.html">FAQ</a>
+    <a href="partners/partners.html">Partneri</a>
+    <a href="contact/contact.html">Kontakt</a>
+  </nav>
+
+  <div class="container">
+    <h2>Dobrodošli!</h2>
+    <p>Dobrodošli na službenu stranicu Automatika Pro. Odaberite sekciju iz menija iznad.</p>
+  </div>
+
+</body>
+</html>
     }
 
     nav a {
