@@ -38,37 +38,31 @@ footer { margin-top:40px; background:#222; color:#fff; padding:20px; }
 </nav>
 </header>
 
-<div id="content">
-<p>Dobrodošli na Automatika PRO!</p>
-</div>
-
+<div id="content"><p>Dobrodošli na Automatika PRO!</p></div>
 <footer id="footer"></footer>
 
 <script>
-let currentLang = 'bs'; // default jezik
+let currentLang = 'bs';
+let currentSection = null;
 
 function changeLanguage(lang) {
   currentLang = lang;
-  // Ponovo učitavanje trenutno prikazane sekcije
   if(currentSection) currentSection();
 }
 
-// Funkcija za učitavanje bilo kojeg fajla
-function loadSection(url) {
-  fetch(url)
-    .then(res => res.ok ? res.text() : Promise.reject("Ne mogu učitati sekciju"))
+function loadSection(file) {
+  fetch(file)
+    .then(res => res.ok ? res.text() : Promise.reject("Ne mogu učitati sekciju: " + file))
     .then(html => document.getElementById('content').innerHTML = html)
     .catch(err => document.getElementById('content').innerHTML = "<p style='color:red;'>"+err+"</p>");
 }
 
-let currentSection = null;
-
 // Home
 function loadHome() {
   currentSection = loadHome;
-  let file = 'sections/home/home.html';
-  if(currentLang==='en') file = 'sections/home/home-en.html';
-  if(currentLang==='de') file = 'sections/home/home-de.html';
+  let file = 'home/home.html';        // bosanski
+  if(currentLang==='en') file = 'home/home-en.html';
+  if(currentLang==='de') file = 'home/home-de.html';
   loadSection(file);
 }
 
@@ -122,13 +116,4 @@ function loadFooter() {
   fetch('footer/footer.html')
     .then(res => res.ok ? res.text() : Promise.reject("Ne mogu učitati footer"))
     .then(html => document.getElementById('footer').innerHTML = html)
-    .catch(err => document.getElementById('footer').innerHTML = "<p style='color:red;'>"+err+"</p>");
-}
-
-// Inicijalno učitavanje
-loadHome();
-loadFooter();
-</script>
-
-</body>
-</html>
+    .catch(err => document.getElementById('footer'
