@@ -49,7 +49,7 @@
     <button onclick="loadSection('sections/about.html')">About Us</button>
     <button onclick="loadSection('sections/services.html')">Services</button>
     <button onclick="loadSection('sections/projects.html')">Projects</button>
-    <button onclick="loadSection('sections/contact.html')">Contact</button>
+    <button onclick="loadSection('kontakt/contact.html')">Contact</button>
   </nav>
 </header>
 
@@ -57,11 +57,12 @@
   <p>Dobrodošli na Automatika PRO!</p>
 </div>
 
-<footer>
-  <p>&copy; 2025 Automatika PRO</p>
+<footer id="footer">
+  <!-- Footer će se učitati dinamički -->
 </footer>
 
 <script>
+  // Funkcija za učitavanje sekcija
   function loadSection(url) {
     fetch(url)
       .then(response => {
@@ -76,14 +77,30 @@
       });
   }
 
-  function changeLanguage(lang) {
-    // Primjer: jednostavna zamjena teksta unutar #content
-    // Kasnije se može proširiti za internacionalizaciju više sekcija
-    alert("Promijenili ste jezik na: " + lang);
+  // Funkcija za učitavanje footer-a
+  function loadFooter() {
+    fetch('footer/footer.html')
+      .then(response => {
+        if (!response.ok) throw new Error("Ne mogu učitati footer");
+        return response.text();
+      })
+      .then(html => {
+        document.getElementById('footer').innerHTML = html;
+      })
+      .catch(err => {
+        document.getElementById('footer').innerHTML = "<p style='color:red;'>"+err.message+"</p>";
+      });
   }
 
-  // Učitavanje početne sekcije
+  // Funkcija za promjenu jezika
+  function changeLanguage(lang) {
+    alert("Promijenili ste jezik na: " + lang);
+    // Kasnije možeš dodati dinamičko učitavanje različitih jezičnih verzija
+  }
+
+  // Inicijalno učitavanje
   loadSection('sections/home.html');
+  loadFooter();
 </script>
 
 </body>
