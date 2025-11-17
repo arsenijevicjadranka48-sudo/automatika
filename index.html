@@ -37,7 +37,7 @@
   <h2>Automatika PRO</h2>
 
   <div id="languages">
-    <select id="langSelect">
+    <select id="langSelect" onchange="changeLanguage(this.value)">
       <option value="bs">Bosanski</option>
       <option value="en">English</option>
       <option value="de">Deutsch</option>
@@ -45,6 +45,46 @@
   </div>
 
   <nav>
-    <button onclick="loadSection('home/home.html')">Home</button>
+    <button onclick="loadSection('sections/home.html')">Home</button>
     <button onclick="loadSection('sections/about.html')">About Us</button>
-    <button onclick="loadSection('services/services.html')">Services</
+    <button onclick="loadSection('sections/services.html')">Services</button>
+    <button onclick="loadSection('sections/projects.html')">Projects</button>
+    <button onclick="loadSection('sections/contact.html')">Contact</button>
+  </nav>
+</header>
+
+<div id="content">
+  <p>Dobrodošli na Automatika PRO!</p>
+</div>
+
+<footer>
+  <p>&copy; 2025 Automatika PRO</p>
+</footer>
+
+<script>
+  function loadSection(url) {
+    fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error("Ne mogu učitati sekciju: " + url);
+        return response.text();
+      })
+      .then(html => {
+        document.getElementById('content').innerHTML = html;
+      })
+      .catch(err => {
+        document.getElementById('content').innerHTML = "<p style='color:red;'>"+err.message+"</p>";
+      });
+  }
+
+  function changeLanguage(lang) {
+    // Primjer: jednostavna zamjena teksta unutar #content
+    // Kasnije se može proširiti za internacionalizaciju više sekcija
+    alert("Promijenili ste jezik na: " + lang);
+  }
+
+  // Učitavanje početne sekcije
+  loadSection('sections/home.html');
+</script>
+
+</body>
+</html>
