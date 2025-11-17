@@ -12,10 +12,12 @@ header img { height:50px; }
 nav { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
 nav button { padding:8px 14px; background:#333; color:#fff; border:none; cursor:pointer; }
 nav button:hover { background:#555; }
+nav button.active { background:#007bff; }
 #languages { position:absolute; top:15px; right:20px; }
 #languages select { padding:6px; }
 #content { padding:20px; min-height:300px; }
 footer { margin-top:40px; background:#222; color:#fff; padding:20px; text-align:center; }
+.section { display:none; }
 </style>
 </head>
 <body>
@@ -34,6 +36,25 @@ footer { margin-top:40px; background:#222; color:#fff; padding:20px; text-align:
     </select>
   </div>
 
+  <nav>
+    <button id="btn-home" onclick="showSection('home')">Home</button>
+    <button id="btn-about" onclick="showSection('about')">About Us</button>
+    <button id="btn-services" onclick="showSection('services')">Services</button>
+    <button id="btn-projects" onclick="showSection('projects')">Projects</button>
+    <button id="btn-contact" onclick="showSection('contact')">Contact</button>
+    <button id="btn-partners" onclick="showSection('partners')">Partners</button>
+  </nav>
+</header>
+
+<div id="content">
+  <!-- Home -->
+  <div class="section" id="home-bs">
+    <h1>Dobrodošli na Automatika PRO</h1>
+    <p>Automatika PRO nudi profesionalna rješenja u oblasti automatizacije i industrijske kontrole. Naš tim stručnjaka implementira moderne tehnologije kako bi optimizovao proizvodnju i poboljšao efikasnost.</p>
+  </div>
+  <div class="section" id="home-en">
+    <h1>Welcome to Automatika PRO</h1>
+    <p>Automatika PRO offers professional solutions in automation and
   <nav>
     <button onclick="loadHome()">Home</button>
     <button onclick="loadAbout()">About Us</button>
