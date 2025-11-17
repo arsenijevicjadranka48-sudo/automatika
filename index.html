@@ -46,47 +46,5 @@
 
   <nav>
     <button onclick="loadSection('home/home.html')">Home</button>
-    <button onclick="loadSection('aboutus/aboutus.html')">About Us</button>
-    <button onclick="loadSection('services/services.html')">Services</button>
-    <button onclick="loadSection('faq/faq.html')">FAQ</button>
-    <button onclick="loadSection('partners/partners.html')">Partners</button>
-    <button onclick="loadSection('kontakt/contact.html')">Contact</button>
-  </nav>
-</header>
-
-<div id="content">Učitavam...</div>
-
-<footer id="footer"></footer>
-
-<script>
-async function loadSection(path) {
-  try {
-    const response = await fetch(path);
-    if (!response.ok) throw new Error("Greška učitavanja: " + path);
-    const html = await response.text();
-    document.getElementById("content").innerHTML = html;
-  } catch (e) {
-    document.getElementById("content").innerHTML =
-      '<p style="color:red">Sekcija nije pronađena: ' + path + "</p>";
-  }
-}
-
-async function loadFooter() {
-  try {
-    const response = await fetch("footer/footer.html");
-    if (!response.ok) throw new Error("Footer fajl ne postoji");
-    const html = await response.text();
-    document.getElementById("footer").innerHTML = html;
-  } catch (e) {
-    document.getElementById("footer").innerHTML =
-      '<p style="color:red">Footer nije pronađen.</p>';
-  }
-}
-
-// Učitaj početnu stranicu i footer
-loadSection("home/home.html");
-loadFooter();
-</script>
-
-</body>
-</html>
+    <button onclick="loadSection('sections/about.html')">About Us</button>
+    <button onclick="loadSection('services/services.html')">Services</
