@@ -6,36 +6,42 @@
 <title>Automatika PRO</title>
 <style>
 body { margin:0; font-family: Arial, sans-serif; }
-header { display:flex; justify-content:space-between; align-items:center; padding:15px; background:#111; color:#fff; flex-wrap: wrap; }
-nav button { margin-left:10px; padding:8px 14px; background:#333; color:#fff; border:none; cursor:pointer; }
+header { display:flex; justify-content:space-between; align-items:center; padding:10px 20px; background:#111; color:#fff; flex-wrap:wrap; position:relative; }
+header h2 { margin:0; }
+header img { height:50px; }
+nav { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+nav button { padding:8px 14px; background:#333; color:#fff; border:none; cursor:pointer; }
 nav button:hover { background:#555; }
 #languages { position:absolute; top:15px; right:20px; }
 #languages select { padding:6px; }
 #content { padding:20px; min-height:300px; }
-footer { margin-top:40px; background:#222; color:#fff; padding:20px; }
+footer { margin-top:40px; background:#222; color:#fff; padding:20px; text-align:center; }
 </style>
 </head>
 <body>
 
 <header>
-<h2>Automatika PRO</h2>
+  <div style="display:flex; align-items:center; gap:10px;">
+    <img src="images/logo.png" alt="Automatika PRO Logo">
+    <h2>Automatika PRO</h2>
+  </div>
 
-<div id="languages">
-<select id="langSelect" onchange="changeLanguage(this.value)">
-  <option value="bs">Bosanski</option>
-  <option value="en">English</option>
-  <option value="de">Deutsch</option>
-</select>
-</div>
+  <div id="languages">
+    <select id="langSelect" onchange="changeLanguage(this.value)">
+      <option value="bs">Bosanski</option>
+      <option value="en">English</option>
+      <option value="de">Deutsch</option>
+    </select>
+  </div>
 
-<nav>
-  <button onclick="loadHome()">Home</button>
-  <button onclick="loadAbout()">About Us</button>
-  <button onclick="loadService()">Services</button>
-  <button onclick="loadProjects()">Projects</button>
-  <button onclick="loadContact()">Contact</button>
-  <button onclick="loadPartners()">Partners</button>
-</nav>
+  <nav>
+    <button onclick="loadHome()">Home</button>
+    <button onclick="loadAbout()">About Us</button>
+    <button onclick="loadService()">Services</button>
+    <button onclick="loadProjects()">Projects</button>
+    <button onclick="loadContact()">Contact</button>
+    <button onclick="loadPartners()">Partners</button>
+  </nav>
 </header>
 
 <div id="content"><p>Dobrodošli na Automatika PRO!</p></div>
@@ -60,7 +66,7 @@ function loadSection(file) {
 // Home
 function loadHome() {
   currentSection = loadHome;
-  let file = 'home/home.html';        // bosanski
+  let file = 'home/home.html';
   if(currentLang==='en') file = 'home/home-en.html';
   if(currentLang==='de') file = 'home/home-de.html';
   loadSection(file);
@@ -116,4 +122,13 @@ function loadFooter() {
   fetch('footer/footer.html')
     .then(res => res.ok ? res.text() : Promise.reject("Ne mogu učitati footer"))
     .then(html => document.getElementById('footer').innerHTML = html)
-    .catch(err => document.getElementById('footer'
+    .catch(err => document.getElementById('footer').innerHTML = "<p style='color:red;'>"+err+"</p>");
+}
+
+// Inicijalno učitavanje
+loadHome();
+loadFooter();
+</script>
+
+</body>
+</html>
