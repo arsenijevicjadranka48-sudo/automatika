@@ -3,37 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automatika PRO – Industrijska rješenja</title>
+<title>Automatika PRO</title>
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
-body { font-family: Arial, sans-serif; background:#f5f5f5; }
+  body { margin:0; font-family: Arial; background:#f4f4f4; }
 
-/* HEADER */
-header {
-  background-image: url('mca.jpg');
-  background-size: cover;
-  background-position: center;
-  height: 170px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  color:white;
-  position:relative;
-  text-align:center;
-}
-header::after {
-  content:"";
-  position:absolute;
-  top:0; left:0; right:0; bottom:0;
-  background: rgba(0,0,0,0.58);
-}
-header h1, header p {
-  position: relative;
-  z-index: 2;
+  header {
+    background:#222; color:white; padding:15px 20px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+
+  nav a {
+    color:white; margin-right:15px; text-decoration:none; cursor:pointer;
+  }
+  nav a:hover { color:#4CAF50; }
+
+  #languages button {
+    margin-left:10px; padding:5px 10px; cursor:pointer;
+  }
+
+  #content {
+    padding:20px;
+    min-height: calc(100vh - 120px);
+  }
+
+  #footer-area {
+    background:#222;
+    color:#fff;
+    padding:20px;
+    margin-top:40px;
+  }
+</style>
+
+</head>
+<body>
+
+<header>
+  <nav>
+    <a onclick="loadSection('sections/aboutus.html')">O Nama</a>
+    <a onclick="loadSection('faq/faq.html')">FAQ</a>
+    <a onclick="loadSection('contact/contact.html')">Kontakt</a>
+    <a onclick="loadSection('partners/partners.html')">Partneri</a>
+  </nav>
+
+  <div id="languages">
+    <button onclick="setLanguage('bs')">BS</button>
+    <button onclick="setLanguage('en')">EN</button>
+    <button onclick="setLanguage('de')">DE</button>
+  </div>
+</header>
+
+<div id="content"></div>
+
+<div id="footer-area"></div>
+
+<script>
+
+let currentLanguage = "bs";
+
+// 🔥 UNIVERZALNA FUNKCIJA ZA UČITAVANJE SEKCIJA
+function loadSection(filePath) {
+  fetch(filePath)
+    .then(r => {
+      if (!r.ok) throw new Error("Fajl ne postoji: " + filePath);
+      return r.text();
+    })
+    .then(html => {
+      document.getElementById("content").innerHTML = html;
+      setTimeout(() => setLanguage(currentLanguage), 30);
+    })
+    .catch(() => {
+      document.getElementById("content").innerHTML =
+        "<h2 style='color:red;'>Greška – fajl nije pronađen!</h2>";
+    });
 }
 
+// 🔥 UČITAVANJE FOOTERA
+function loadFooter() {
+  fetch("footer/footer.html")
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById("footer-area").innerHTML = html;
+      setTimeout(() => setLanguage(currentLanguage), 30);
+    });
+}
+
+// 🔥 JEZICI
+function setLanguage(lang) {
+  currentLanguage = lang;
+  document.querySelectorAll("[data-bs]").forEach(el => {
+    el.textContent = el.getAttribute("data-" + lang);
+  });
+}
+
+// 🔥 početno učitavanje
+loadSection("sections/aboutus.html");
+loadFooter();
+
+</script>
+
+</body>
+</html>
 /* LANGUAGE SELECTOR */
 .lang {
   position:absolute;
