@@ -1,155 +1,25 @@
 <!DOCTYPE html>
 <html lang="bs">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automatika PRO</title>
-
-<style>
-  body { margin:0; font-family: Arial; background:#f4f4f4; }
-
-  header {
-    background:#222; color:white; padding:15px 20px;
-    display:flex; justify-content:space-between; align-items:center;
-  }
-
-  nav a {
-    color:white; margin-right:15px; text-decoration:none; cursor:pointer;
-  }
-  nav a:hover { color:#4CAF50; }
-
-  #languages button {
-    margin-left:10px; padding:5px 10px; cursor:pointer;
-  }
-
-  #content {
-    padding:20px;
-    min-height: calc(100vh - 120px);
-  }
-
-  #footer-area {
-    background:#222;
-    color:#fff;
-    padding:20px;
-    margin-top:40px;
-  }
-</style>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automatika PRO</title>
+  <style>
+    body { margin:0; font-family: Arial, sans-serif; }
+    header { display:flex; justify-content:space-between; align-items:center; padding:15px; background:#111; color:#fff; }
+    nav button { margin-left:10px; padding:8px 14px; background:#333; color:#fff; border:none; cursor:pointer; }
+    nav button:hover { background:#555; }
+    #languages { position:absolute; top:15px; right:20px; }
+    #languages select { padding:6px; }
+    #content { padding:20px; }
+  </style>
 </head>
 <body>
 
 <header>
-  <nav>
-    <a onclick="loadSection('sections/aboutus.html')">O Nama</a>
-    <a onclick="loadSection('faq/faq.html')">FAQ</a>
-    <a onclick="loadSection('contact/contact.html')">Kontakt</a>
-    <a onclick="loadSection('partners/partners.html')">Partneri</a>
-  </nav>
+  <h2>Automatika PRO</h2>
 
   <div id="languages">
-    <button onclick="setLanguage('bs')">BS</button>
-    <button onclick="setLanguage('en')">EN</button>
-    <button onclick="setLanguage('de')">DE</button>
-  </div>
-</header>
-
-<div id="content"></div>
-
-<div id="footer-area"></div>
-
-<script>
-
-let currentLanguage = "bs";
-
-// 🔥 UNIVERZALNA FUNKCIJA ZA UČITAVANJE SEKCIJA
-function loadSection(filePath) {
-  fetch(filePath)
-    .then(r => {
-      if (!r.ok) throw new Error("Fajl ne postoji: " + filePath);
-      return r.text();
-    })
-    .then(html => {
-      document.getElementById("content").innerHTML = html;
-      setTimeout(() => setLanguage(currentLanguage), 30);
-    })
-    .catch(() => {
-      document.getElementById("content").innerHTML =
-        "<h2 style='color:red;'>Greška – fajl nije pronađen!</h2>";
-    });
-}
-
-// 🔥 UČITAVANJE FOOTERA
-function loadFooter() {
-  fetch("footer/footer.html")
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById("footer-area").innerHTML = html;
-      setTimeout(() => setLanguage(currentLanguage), 30);
-    });
-}
-
-// 🔥 JEZICI
-function setLanguage(lang) {
-  currentLanguage = lang;
-  document.querySelectorAll("[data-bs]").forEach(el => {
-    el.textContent = el.getAttribute("data-" + lang);
-  });
-}
-
-// 🔥 početno učitavanje
-loadSection("sections/aboutus.html");
-loadFooter();
-
-</script>
-
-</body>
-</html>
-/* LANGUAGE SELECTOR */
-.lang {
-  position:absolute;
-  top:15px;
-  right:20px;
-  z-index:3;
-}
-.lang select {
-  padding:5px 10px;
-  font-size:14px;
-  border-radius:5px;
-}
-
-/* MENI */
-nav {
-  background:#222;
-  color:white;
-  padding:10px;
-  display:flex;
-  justify-content:center;
-  gap:15px;
-}
-nav button {
-  background:#444;
-  color:white;
-  border:none;
-  padding:10px 15px;
-  cursor:pointer;
-  border-radius:5px;
-}
-nav button:hover { background:#666; }
-
-/* SEKCIJE */
-section {
-  padding:40px 20px;
-  max-width:900px;
-  margin:auto;
-}
-section h2 { margin-bottom:15px; }
-
-</style>
-</head>
-<body>
-
-<header>
-  <div class="lang">
     <select id="langSelect">
       <option value="bs">Bosanski</option>
       <option value="en">English</option>
@@ -157,171 +27,48 @@ section h2 { margin-bottom:15px; }
     </select>
   </div>
 
-  <h1>Automatika PRO</h1>
-  <p>Industrijska automatizacija i rješenja</p>
+  <nav>
+    <button onclick="loadSection('home/home.html')">Home</button>
+    <button onclick="loadSection('aboutus/aboutus.html')">About Us</button>
+    <button onclick="loadSection('services/services.html')">Services</button>
+    <button onclick="loadSection('faq/faq.html')">FAQ</button>
+    <button onclick="loadSection('partners/partners.html')">Partners</button>
+    <button onclick="loadSection('contact/contact.html')">Contact</button>
+  </nav>
 </header>
 
-<nav>
-  <button data-target="usluge">Usluge</button>
-  <button data-target="projekti">Projekti</button>
-  <button data-target="kontakt">Kontakt</button>
-</nav>
+<div id="content">Učitavam...</div>
 
-<section id="usluge">
-  <h2>Usluge</h2>
-  <p>Ovdje ide opis usluga...</p>
-</section>
-
-<section id="projekti">
-  <h2>Projekti</h2>
-  <p>Ovdje idu vaši projekti...</p>
-</section>
-
-<section id="kontakt">
-  <h2>Kontakt</h2>
-  <p>Telefon, email i ostalo...</p>
-</section>
+<footer id="footer"></footer>
 
 <script>
-// SCROLL FUNKCIONALNOST ZA DUGMAD
-document.querySelectorAll("nav button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const targetId = btn.getAttribute("data-target");
-    const target = document.getElementById(targetId);
-    if(target){
-      target.scrollIntoView({ behavior:"smooth" });
-    }
-  });
-});
-
-// JEZIČKI SWITCH – samo primjer (možeš proširiti)
-document.getElementById("langSelect").addEventListener("change", function(){
-  let lang = this.value;
-
-  if(lang === "en"){
-    document.querySelector("h1").innerText = "Automatics PRO";
-    document.querySelector("header p").innerText = "Industrial automation and solutions";
-    document.querySelector("[data-target='usluge']").innerText = "Services";
-    document.querySelector("[data-target='projekti']").innerText = "Projects";
-    document.querySelector("[data-target='kontakt']").innerText = "Contact";
-    document.querySelector("#usluge h2").innerText = "Services";
-    document.querySelector("#projekti h2").innerText = "Projects";
-    document.querySelector("#kontakt h2").innerText = "Contact";
+async function loadSection(path) {
+  try {
+    const response = await fetch(path);
+    if (!response.ok) throw new Error('Greška učitavanja: ' + path);
+    const html = await response.text();
+    document.getElementById('content').innerHTML = html;
+  } catch (e) {
+    document.getElementById('content').innerHTML = '<p style="color:red">Sekcija nije pronađena: ' + path + '</p>';
   }
+}
 
-  if(lang === "de"){
-    document.querySelector("h1").innerText = "Automatik PRO";
-    document.querySelector("header p").innerText = "Industrielle Automatisierung und Lösungen";
-    document.querySelector("[data-target='usluge']").innerText = "Dienstleistungen";
-    document.querySelector("[data-target='projekti']").innerText = "Projekte";
-    document.querySelector("[data-target='kontakt']").innerText = "Kontakt";
-    document.querySelector("#usluge h2").innerText = "Dienstleistungen";
-    document.querySelector("#projekti h2").innerText = "Projekte";
-    document.querySelector("#kontakt h2").innerText = "Kontakt";
+async function loadFooter() {
+  try {
+    const response = await fetch('footer/footer.html');
+    if (!response.ok) throw new Error('Footer fajl ne postoji');
+    const html = await response.text();
+    document.getElementById('footer').innerHTML = html;
+  } catch (e) {
+    document.getElementById('footer').innerHTML = '<p style="color:red">Footer nije pronađen.</p>';
   }
+}
 
-  if(lang === "bs"){
-    location.reload();
-  }
-});
+// Učitaj početnu stranicu i footer
+loadSection('home/home.html');
+loadFooter();
+
 </script>
 
 </body>
 </html>
-/* NAVIGACIJA */
-nav {
-  display:flex;
-  justify-content:center;
-  gap:25px;
-  background:#002855;
-  padding:14px;
-  flex-wrap:wrap;
-  border-bottom:3px solid #ffcc00;
-}
-
-nav a {
-  color:white;
-  font-weight:700;
-  text-decoration:none;
-  font-size:18px;
-  padding:6px 10px;
-  border-radius:6px;
-  transition:0.3s;
-}
-
-nav a:hover {
-  background:#ffcc00;
-  color:black;
-}
-
-/* SEKCIJE */
-section {
-  padding:40px;
-  background:#fff;
-  max-width:1000px;
-  margin:25px auto;
-  border-radius:10px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.1);
-}
-
-/* JEZIK */
-.lang { display:none; }
-.lang-bs { display:block; }
-
-.back-home {
-  display:block;
-  margin:20px auto;
-  padding:10px 20px;
-  background:#003366;
-  color:white;
-  text-decoration:none;
-  border-radius:8px;
-  width:150px;
-  text-align:center;
-}
-.back-home:hover { background:#0055aa; }
-</style>
-</head>
-
-<body>
-
-<header>
-    <h1 class="lang lang-bs">Automatika PRO – Industrijska rješenja</h1>
-    <p class="lang lang-bs">Profesionalna rješenja iz industrijske automatike.</p>
-
-    <h1 class="lang lang-en">Automatika PRO – Industrial Solutions</h1>
-    <p class="lang lang-en">Professional industrial automation solutions.</p>
-
-    <h1 class="lang lang-de">Automatika PRO – Industrielle Lösungen</h1>
-    <p class="lang lang-de">Professionelle industrielle Automatisierungslösungen.</p>
-</header>
-
-<!-- NAVIGACIJA -->
-<nav>
-  <a href="#pocetna">Početna</a>
-  <a href="#about">O nama</a>
-  <a href="#faq">FAQ</a>
-  <a href="#partners">Partneri</a>
-  <a href="#contact">Kontakt</a>
-
-  <!-- JEZICI -->
-  <a onclick="setLang('bs')">BS</a>
-  <a onclick="setLang('en')">EN</a>
-  <a onclick="setLang('de')">DE</a>
-</nav>
-
-<!-- SADRŽAJ -->
-<section id="pocetna">
-  <h2>Dobrodošli!</h2>
-  <p>Odaberite jednu od ponuđenih sekcija iznad.</p>
-</section>
-
-<section id="about"></section>
-<section id="faq"></section>
-<section id="partners"></section>
-<section id="contact"></section>
-
-<script>
-// Prikaz jezika
-function setLang(lang){
-  document.querySelectorAll('.lang').forEach(el => el.style.display='none');
