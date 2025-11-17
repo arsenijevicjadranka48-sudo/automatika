@@ -1,106 +1,133 @@
 <!DOCTYPE html>
 <html lang="bs">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Automatika PRO</title>
-
-  <style>
-    body { margin:0; font-family: Arial, sans-serif; }
-    header { 
-      display:flex; 
-      justify-content:space-between; 
-      align-items:center; 
-      padding:15px; 
-      background:#111; 
-      color:#fff; 
-      flex-wrap: wrap;
-    }
-    nav button { 
-      margin-left:10px; 
-      padding:8px 14px; 
-      background:#333; 
-      color:#fff; 
-      border:none; 
-      cursor:pointer; 
-    }
-    nav button:hover { background:#555; }
-    #languages { position:absolute; top:15px; right:20px; }
-    #languages select { padding:6px; }
-    #content { padding:20px; min-height:300px; }
-    footer { margin-top:40px; background:#222; color:#fff; padding:20px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automatika PRO</title>
+<style>
+body { margin:0; font-family: Arial, sans-serif; }
+header { display:flex; justify-content:space-between; align-items:center; padding:15px; background:#111; color:#fff; flex-wrap: wrap; }
+nav button { margin-left:10px; padding:8px 14px; background:#333; color:#fff; border:none; cursor:pointer; }
+nav button:hover { background:#555; }
+#languages { position:absolute; top:15px; right:20px; }
+#languages select { padding:6px; }
+#content { padding:20px; min-height:300px; }
+footer { margin-top:40px; background:#222; color:#fff; padding:20px; }
+</style>
 </head>
 <body>
 
 <header>
-  <h2>Automatika PRO</h2>
+<h2>Automatika PRO</h2>
 
-  <div id="languages">
-    <select id="langSelect" onchange="changeLanguage(this.value)">
-      <option value="bs">Bosanski</option>
-      <option value="en">English</option>
-      <option value="de">Deutsch</option>
-    </select>
-  </div>
+<div id="languages">
+<select id="langSelect" onchange="changeLanguage(this.value)">
+  <option value="bs">Bosanski</option>
+  <option value="en">English</option>
+  <option value="de">Deutsch</option>
+</select>
+</div>
 
-  <nav>
-    <button onclick="loadSection('sections/home.html')">Home</button>
-    <button onclick="loadSection('sections/about.html')">About Us</button>
-    <button onclick="loadSection('sections/services.html')">Services</button>
-    <button onclick="loadSection('sections/projects.html')">Projects</button>
-    <button onclick="loadSection('kontakt/contact.html')">Contact</button>
-  </nav>
+<nav>
+  <button onclick="loadHome()">Home</button>
+  <button onclick="loadAbout()">About Us</button>
+  <button onclick="loadService()">Services</button>
+  <button onclick="loadProjects()">Projects</button>
+  <button onclick="loadContact()">Contact</button>
+  <button onclick="loadPartners()">Partners</button>
+</nav>
 </header>
 
 <div id="content">
-  <p>Dobrodošli na Automatika PRO!</p>
+<p>Dobrodošli na Automatika PRO!</p>
 </div>
 
-<footer id="footer">
-  <!-- Footer će se učitati dinamički -->
-</footer>
+<footer id="footer"></footer>
 
 <script>
-  // Funkcija za učitavanje sekcija
-  function loadSection(url) {
-    fetch(url)
-      .then(response => {
-        if (!response.ok) throw new Error("Ne mogu učitati sekciju: " + url);
-        return response.text();
-      })
-      .then(html => {
-        document.getElementById('content').innerHTML = html;
-      })
-      .catch(err => {
-        document.getElementById('content').innerHTML = "<p style='color:red;'>"+err.message+"</p>";
-      });
-  }
+let currentLang = 'bs'; // default jezik
 
-  // Funkcija za učitavanje footer-a
-  function loadFooter() {
-    fetch('footer/footer.html')
-      .then(response => {
-        if (!response.ok) throw new Error("Ne mogu učitati footer");
-        return response.text();
-      })
-      .then(html => {
-        document.getElementById('footer').innerHTML = html;
-      })
-      .catch(err => {
-        document.getElementById('footer').innerHTML = "<p style='color:red;'>"+err.message+"</p>";
-      });
-  }
+function changeLanguage(lang) {
+  currentLang = lang;
+  // Ponovo učitavanje trenutno prikazane sekcije
+  if(currentSection) currentSection();
+}
 
-  // Funkcija za promjenu jezika
-  function changeLanguage(lang) {
-    alert("Promijenili ste jezik na: " + lang);
-    // Kasnije možeš dodati dinamičko učitavanje različitih jezičnih verzija
-  }
+// Funkcija za učitavanje bilo kojeg fajla
+function loadSection(url) {
+  fetch(url)
+    .then(res => res.ok ? res.text() : Promise.reject("Ne mogu učitati sekciju"))
+    .then(html => document.getElementById('content').innerHTML = html)
+    .catch(err => document.getElementById('content').innerHTML = "<p style='color:red;'>"+err+"</p>");
+}
 
-  // Inicijalno učitavanje
-  loadSection('sections/home.html');
-  loadFooter();
+let currentSection = null;
+
+// Home
+function loadHome() {
+  currentSection = loadHome;
+  let file = 'sections/home/home.html';
+  if(currentLang==='en') file = 'sections/home/home-en.html';
+  if(currentLang==='de') file = 'sections/home/home-de.html';
+  loadSection(file);
+}
+
+// About
+function loadAbout() {
+  currentSection = loadAbout;
+  let file = 'sections/about/about.html';
+  if(currentLang==='en') file = 'sections/about/about-en.html';
+  if(currentLang==='de') file = 'sections/about/about-de.html';
+  loadSection(file);
+}
+
+// Services
+function loadService() {
+  currentSection = loadService;
+  let file = 'sections/service/services.html';
+  if(currentLang==='en') file = 'sections/service/service-en.html';
+  if(currentLang==='de') file = 'sections/service/service-de.html';
+  loadSection(file);
+}
+
+// Projects
+function loadProjects() {
+  currentSection = loadProjects;
+  let file = 'sections/projects/projects.html';
+  if(currentLang==='en') file = 'sections/projects/projects-en.html';
+  if(currentLang==='de') file = 'sections/projects/projects-de.html';
+  loadSection(file);
+}
+
+// Contact
+function loadContact() {
+  currentSection = loadContact;
+  let file = 'kontakt/contact.html';
+  if(currentLang==='en') file = 'kontakt/contact-en.html';
+  if(currentLang==='de') file = 'kontakt/contact-de.html';
+  loadSection(file);
+}
+
+// Partners
+function loadPartners() {
+  currentSection = loadPartners;
+  let file = 'partners/partners.html';
+  if(currentLang==='en') file = 'partners/partners-en.html';
+  if(currentLang==='de') file = 'partners/partners-de.html';
+  loadSection(file);
+}
+
+// Footer
+function loadFooter() {
+  fetch('footer/footer.html')
+    .then(res => res.ok ? res.text() : Promise.reject("Ne mogu učitati footer"))
+    .then(html => document.getElementById('footer').innerHTML = html)
+    .catch(err => document.getElementById('footer').innerHTML = "<p style='color:red;'>"+err+"</p>");
+}
+
+// Inicijalno učitavanje
+loadHome();
+loadFooter();
 </script>
 
 </body>
