@@ -14,7 +14,7 @@ header {
   background-image: url('mca.jpg');
   background-size: cover;
   background-position: center;
-  height: 220px; /* SMANJENO */
+  height: 170px; /* SMANJENO */
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -27,7 +27,7 @@ header::after {
   content:"";
   position:absolute;
   top:0; left:0; right:0; bottom:0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.58); /* JAČA TAMNA MASKA */
 }
 header h1, header p {
   position: relative;
@@ -38,17 +38,27 @@ header h1, header p {
 nav {
   display:flex;
   justify-content:center;
-  gap:20px;
-  background:#003366;
-  padding:12px;
+  gap:25px;
+  background:#002855;
+  padding:14px;
   flex-wrap:wrap;
+  border-bottom:3px solid #ffcc00;
 }
+
 nav a {
   color:white;
   font-weight:700;
   text-decoration:none;
+  font-size:18px;
+  padding:6px 10px;
+  border-radius:6px;
+  transition:0.3s;
 }
-nav a:hover { color:#ffcc00; }
+
+nav a:hover {
+  background:#ffcc00;
+  color:black;
+}
 
 /* SEKCIJE */
 section {
@@ -60,6 +70,7 @@ section {
   box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
+/* JEZIK */
 .lang { display:none; }
 .lang-bs { display:block; }
 
@@ -82,11 +93,12 @@ section {
 
 <header>
     <h1 class="lang lang-bs">Automatika PRO – Industrijska rješenja</h1>
-    <h1 class="lang lang-en">Automatika PRO – Industrial Solutions</h1>
-    <h1 class="lang lang-de">Automatika PRO – Industrielle Lösungen</h1>
-
     <p class="lang lang-bs">Profesionalna rješenja iz industrijske automatike.</p>
+
+    <h1 class="lang lang-en">Automatika PRO – Industrial Solutions</h1>
     <p class="lang lang-en">Professional industrial automation solutions.</p>
+
+    <h1 class="lang lang-de">Automatika PRO – Industrielle Lösungen</h1>
     <p class="lang lang-de">Professionelle industrielle Automatisierungslösungen.</p>
 </header>
 
@@ -98,7 +110,7 @@ section {
   <a href="#partners">Partneri</a>
   <a href="#contact">Kontakt</a>
 
-  <!-- PREKIDAČ ZA JEZIK -->
+  <!-- JEZICI -->
   <a onclick="setLang('bs')">BS</a>
   <a onclick="setLang('en')">EN</a>
   <a onclick="setLang('de')">DE</a>
@@ -119,29 +131,3 @@ section {
 // Prikaz jezika
 function setLang(lang){
   document.querySelectorAll('.lang').forEach(el => el.style.display='none');
-  document.querySelectorAll('.lang-'+lang).forEach(el => el.style.display='block');
-
-  loadSection('about','about/about.html','about/aboutus.html','about/aboutde.html', lang);
-  loadSection('faq','faq/faq.html','faq/faqen.html','faq/faqde.html', lang);
-  loadSection('partners','partners/partners.html','partners/partnerske.html','partners/partnerske.html', lang);
-  loadSection('contact','contact/contact.html','contact/contacten.html','contact/contactde.html', lang);
-}
-
-async function loadSection(id, fileBS, fileEN, fileDE, lang){
-  let file = lang === 'bs' ? fileBS : lang === 'en' ? fileEN : fileDE;
-
-  try {
-    const response = await fetch(file);
-    const html = await response.text();
-    document.getElementById(id).innerHTML = html +
-      `<a class="back-home" href="#pocetna">Početna</a>`;
-  } catch {
-    document.getElementById(id).innerHTML = "<p style='color:red;'>Greška pri učitavanju.</p>";
-  }
-}
-
-document.addEventListener('DOMContentLoaded', () => setLang('bs'));
-</script>
-
-</body>
-</html>
