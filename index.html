@@ -4,10 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Automatika PRO</title>
-
 <style>
 body { margin:0; font-family: Arial, sans-serif; background:#f4f4f4; }
-
 header {
   display:flex;
   justify-content:space-between;
@@ -17,49 +15,17 @@ header {
   color:#fff;
   flex-wrap:wrap;
 }
-
-header img {
-  height:55px;
-  border-radius:8px;
-}
-
+header img { height:55px; border-radius:8px; }
 nav { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-nav button {
-  padding:8px 14px;
-  background:#333;
-  color:#fff;
-  border:none;
-  cursor:pointer;
-  border-radius:4px;
-}
+nav button { padding:8px 14px; background:#333; color:#fff; border:none; cursor:pointer; border-radius:4px; }
 nav button:hover { background:#555; }
-nav button.active { background:#007bff; }
-
 #languages { margin-left:auto; }
 #languages select { padding:6px; }
-
 #content { padding:20px; min-height:350px; background:white; margin:20px; border-radius:6px; }
-
-.back-home {
-  margin-top:20px;
-  padding:10px 18px;
-  background:#007bff;
-  border:none;
-  color:white;
-  border-radius:6px;
-  cursor:pointer;
-}
+.back-home { margin-top:20px; padding:10px 18px; background:#007bff; border:none; color:white; border-radius:6px; cursor:pointer; }
 .back-home:hover { background:#0062cc; }
-
-footer {
-  background:#222;
-  color:#fff;
-  padding:20px;
-  text-align:center;
-  margin-top:40px;
-}
+footer { background:#222; color:#fff; padding:20px; text-align:center; margin-top:40px; }
 </style>
-
 </head>
 <body>
 
@@ -68,7 +34,6 @@ footer {
     <img src="/mca.jpg" alt="Logo">
     <h2>Automatika PRO</h2>
   </div>
-
   <div id="languages">
     <select id="langSelect" onchange="changeLanguage(this.value)">
       <option value="bs">Bosanski</option>
@@ -76,7 +41,6 @@ footer {
       <option value="de">Deutsch</option>
     </select>
   </div>
-
   <nav>
     <button onclick="loadHome()">Home</button>
     <button onclick="loadAbout()">About</button>
@@ -86,97 +50,21 @@ footer {
   </nav>
 </header>
 
-<div id="content">
-  <p>Učitavanje...</p>
-</div>
-
+<div id="content"><p>Učitavanje...</p></div>
 <footer id="footer"></footer>
 
 <script>
 let currentLang = "bs";
 let currentSectionFunc = null;
 
-// Promjena jezika
+// promjena jezika
 function changeLanguage(lang){
   currentLang = lang;
   if(currentSectionFunc) currentSectionFunc();
 }
 
-// Generičko učitavanje sekcije
+// generičko učitavanje sekcije
 function loadSection(file){
   fetch(file)
-    .then(res => res.ok ? res.text() : Promise.reject("Greška: " + file))
-    .then(html => document.getElementById("content").innerHTML = html + "<button class='back-home' onclick='loadHome()'>⬅ Povratak na početnu</button>")
-    .catch(err => document.getElementById("content").innerHTML = "<p style='color:red;'>" + err + "</p>");
-}
-
-/* -------------- HOME -------------- */
-function loadHome(){
-  currentSectionFunc = loadHome;
-
-  let file = "/home/home.html";
-  if(currentLang === "en") file = "/home/home-en.html";
-  if(currentLang === "de") file = "/home/home-de.html";
-
-  loadSection(file);
-}
-
-/* -------------- ABOUT -------------- */
-function loadAbout(){
-  currentSectionFunc = loadAbout;
-
-  let file = "/sections/about.html"; // Bosanski
-  if(currentLang === "en") file = "/sections/about-en.html";
-  if(currentLang === "de") file = "/sections/about-de.html";
-
-  loadSection(file);
-}
-
-/* -------------- SERVICES -------------- */
-function loadService(){
-  currentSectionFunc = loadService;
-
-  let file = "/sections/service/services.html";
-  if(currentLang === "en") file = "/sections/service/services-en.html";
-  if(currentLang === "de") file = "/sections/service/services-de.html";
-
-  loadSection(file);
-}
-
-/* -------------- PROJECTS -------------- */
-function loadProjects(){
-  currentSectionFunc = loadProjects;
-
-  let file = "/projects/projects-bs.html";
-  if(currentLang === "en") file = "/projects/projects-en.html";
-  if(currentLang === "de") file = "/projects/projects-de.html";
-
-  loadSection(file);
-}
-
-/* -------------- KONTAKT -------------- */
-function loadContact(){
-  currentSectionFunc = loadContact;
-
-  let file = "/kontakt/kontakt.html";
-  if(currentLang === "en") file = "/kontakt/kontakt-en.html";
-  if(currentLang === "de") file = "/kontakt/kontakt-de.html";
-
-  loadSection(file);
-}
-
-/* -------------- FOOTER -------------- */
-function loadFooter(){
-  fetch("/footer/footer.html")
-    .then(res => res.ok ? res.text() : Promise.reject("Ne mogu učitati footer"))
-    .then(html => document.getElementById("footer").innerHTML = html)
-    .catch(err => document.getElementById("footer").innerHTML = "<p style='color:red;'>" + err + "</p>");
-}
-
-/* -------------- INIT -------------- */
-loadHome();
-loadFooter();
-</script>
-
-</body>
-</html>
+    .then(r => r.ok ? r.text() : Promise.reject("Greška: " + file))
+    .then(html => document.getElement
