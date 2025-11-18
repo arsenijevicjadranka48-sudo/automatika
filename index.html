@@ -6,7 +6,8 @@
 
 <style>
 body { font-family: Arial; margin:0; background:#f2f2f2;}
-header { padding:15px; background:#111; color:#fff;}
+header { padding:15px; background:#111; color:#fff; display:flex; align-items:center;}
+header img { height:50px; margin-right:15px; }
 nav { background:#222; padding:10px;}
 nav button { padding:10px 15px; background:#333; border:none; color:#fff; cursor:pointer; border-radius:4px;}
 nav button:hover { background:#555;}
@@ -44,8 +45,123 @@ footer {
 <body>
 
 <header>
+  <img src="images/logo.png" alt="Automatika PRO Logo">
   <h1>Automatika PRO</h1>
 </header>
 
 <nav>
-  <button onclick="loadHome()">Hom
+  <button onclick="loadHome()">Home</button>
+  <button onclick="loadFAQ()">FAQ</button>
+  <button onclick="loadAbout()">About</button>
+  <button onclick="loadAboutDE()">About DE</button>
+  <button onclick="loadPartners()">Partners</button>
+  <button onclick="loadPartnersDE()">Partners DE</button>
+  <button onclick="loadPartnersKE()">Partners KE</button>
+  <button onclick="loadService()">Service</button>
+  <button onclick="loadServiceDE()">Service DE</button>
+
+  <select id="langSelect" onchange="changeLang(this.value)" style="margin-left:20px; padding:6px;">
+    <option value="bs">Bosanski</option>
+    <option value="en">English</option>
+    <option value="de">Deutsch</option>
+  </select>
+</nav>
+
+<div id="content">Učitavanje...</div>
+<footer id="footer">Učitavanje footera...</footer>
+
+<script>
+// ******************************
+// JEZIK
+// ******************************
+let currentLang = "bs";
+
+function changeLang(lang) {
+  currentLang = lang;
+  loadHome();
+}
+
+// ******************************
+// GENERIČKO UČITAVANJE SEKCIJA
+// ******************************
+function loadSection(path) {
+  fetch(path)
+    .then(r => r.ok ? r.text() : "<p style='color:red'>Greška prilikom učitavanja: " + path + "</p>")
+    .then(html => {
+      document.getElementById("content").innerHTML =
+        html + `<button class='back-home' onclick='loadHome()'>⬅ Povratak</button>`;
+    });
+}
+
+// ******************************
+// HOME
+// ******************************
+function loadHome() {
+  let file = "home/home.html";
+  if (currentLang === "en") file = "home/home-en.html";
+  if (currentLang === "de") file = "home/home-de.html";
+  loadSection(file);
+}
+
+// ******************************
+// FAQ
+// ******************************
+function loadFAQ() {
+  let file = "faq/faq.html";
+  if (currentLang === "de") file = "faq/faqde.html";
+  loadSection(file);
+}
+
+// ******************************
+// ABOUT (BS/EN/DE)
+function loadAbout() {
+  let file = "sections/about.html";
+  if (currentLang === "en") file = "sections/about-en.html";
+  if (currentLang === "de") file = "sections/about-de.html";
+  loadSection(file);
+}
+
+// ******************************
+// ABOUT DE (posebna funkcija)
+function loadAboutDE() {
+  loadSection("sections/about-de.html");
+}
+
+// ******************************
+// PARTNERS (BS/DE/KE)
+function loadPartners() {
+  let file = "partners/partners.html";
+  if (currentLang === "de") file = "partners/partnersde.html";
+  loadSection(file);
+}
+function loadPartnersDE() {
+  loadSection("partners/partnersde.html");
+}
+function loadPartnersKE() {
+  loadSection("partners/partnerske.html");
+}
+
+// ******************************
+// SERVICE (BS/EN/DE)
+function loadService() {
+  let file = "sections/srtvice/service.html";
+  if (currentLang === "en") file = "sections/srtvice/service-en.html";
+  if (currentLang === "de") file = "sections/srtvice/service-de.html";
+  loadSection(file);
+}
+function loadServiceDE() {
+  loadSection("sections/srtvice/service-de.html");
+}
+
+// ******************************
+// FOOTER
+fetch("footer/footer.html")
+  .then(r => r.ok ? r.text() : "Greška učitavanja footera.")
+  .then(html => document.getElementById("footer").innerHTML = html);
+
+// INIT – učitaj početnu
+loadHome();
+</script>
+
+</body>
+</html>
