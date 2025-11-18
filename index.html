@@ -1,160 +1,130 @@
 <!DOCTYPE html>
 <html lang="bs">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automatika PRO</title>
-<style>
-body { font-family: Arial, sans-serif; margin:0; background:#f2f2f2; }
-header { padding:15px; background:#111; color:#fff; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; }
-nav { background:#222; padding:10px; flex:1 1 100%; display:flex; flex-wrap:wrap; gap:5px; }
-nav button { padding:10px 15px; background:#333; border:none; color:#fff; cursor:pointer; border-radius:4px; }
-nav button:hover { background:#555; }
-#content { padding:20px; min-height:300px; background:white; margin:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
-.back-home { margin-top:20px; padding:10px 18px; background:#007bff; border:none; color:white; border-radius:6px; cursor:pointer; }
-.back-home:hover { background:#0062cc; }
-footer { background:#111; color:white; text-align:center; padding:20px; margin-top:30px; }
-#langSelect { padding:6px; margin-left:10px; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automatika PRO – Industrijska rješenja</title>
+  <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
 
 <header>
-  <h1>Automatika PRO</h1>
-  <select id="langSelect" onchange="changeLang(this.value)">
-    <option value="bs">Bosanski</option>
-    <option value="en">English</option>
-    <option value="de">Deutsch</option>
-  </select>
+  <h2 class="logo">Automatika PRO</h2>
+
+  <nav>
+    <button data-path="home/home.html">Home</button>
+    <button data-path="aboutus/aboutus.html">About Us</button>
+    <button data-path="services/services.html">Services</button>
+    <button data-path="faq/faq.html">FAQ</button>
+    <button data-path="partners/partners.html">Partners</button>
+    <button data-path="contact/contact.html">Contact</button>
+  </nav>
+
+  <div id="languages">
+    <select id="langSelect">
+      <option value="bs">Bosanski</option>
+      <option value="en">English</option>
+      <option value="de">Deutsch</option>
+    </select>
+  </div>
 </header>
 
-<nav>
-  <button onclick="loadHome()">Home</button>
-  <button onclick="loadFAQ()">FAQ</button>
-  <button onclick="loadAbout()">About</button>
-  <button onclick="loadServices()">Services</button>
-  <button onclick="loadProjects()">Projects</button>
-  <button onclick="loadContact()">Contact</button>
-  <button onclick="loadPartners()">Partners</button>
-</nav>
+<div id="content">Učitavam sadržaj...</div>
 
-<div id="content">Učitavanje...</div>
+<footer id="footer"></footer>
 
-<footer id="footer">Učitavanje footera...</footer>
-
-<script>
-// =======================
-// GLOBALNE VARIJABLE
-// =======================
-let currentLang = "bs";
-let currentSectionFunc = null;
-
-// =======================
-// JEZIK
-// =======================
-function changeLang(lang){
-  currentLang = lang;
-  if(currentSectionFunc) currentSectionFunc();
-}
-
-// =======================
-// GENERIČKO UČITAVANJE SEKCIJE
-// =======================
-function loadSection(path){
-  fetch(path)
-    .then(r => r.ok ? r.text() : "<p style='color:red'>Greška: " + path + "</p>")
-    .then(html => {
-      document.getElementById("content").innerHTML =
-        html + `<button class='back-home' onclick='loadHome()'>⬅ Povratak na početnu</button>`;
-    });
-}
-
-// =======================
-// HOME
-// =======================
-function loadHome(){
-  currentSectionFunc = loadHome;
-  let file = "/home/home.html";
-  if(currentLang==="en") file = "/home/home-en.html";
-  if(currentLang==="de") file = "/home/home-de.html";
-  loadSection(file);
-}
-
-// =======================
-// FAQ
-// =======================
-function loadFAQ(){
-  currentSectionFunc = loadFAQ;
-  loadSection("/faq/faq.html");
-}
-
-// =======================
-// ABOUT
-// =======================
-function loadAbout(){
-  currentSectionFunc = loadAbout;
-  let file = "/sections/about-bs.html";
-  if(currentLang==="en") file = "/sections/about-en.html";
-  if(currentLang==="de") file = "/sections/about-de.html";
-  loadSection(file);
-}
-
-// =======================
-// SERVICES
-// =======================
-function loadServices(){
-  currentSectionFunc = loadServices;
-  let file = "/automatika/sections/service/services.html"; // BS
-  if(currentLang === "en") file = "/automatika/sections/service/services-en.html";
-  if(currentLang === "de") file = "/automatika/sections/service/services-de.html";
-  loadSection(file);
-}
-
-// =======================
-// PROJECTS
-// =======================
-function loadProjects(){
-  currentSectionFunc = loadProjects;
-  let file = "/sections/projects-bs.html";
-  if(currentLang==="en") file = "/sections/projects-en.html";
-  if(currentLang==="de") file = "/sections/projects-de.html";
-  loadSection(file);
-}
-
-// =======================
-// CONTACT
-// =======================
-function loadContact(){
-  currentSectionFunc = loadContact;
-  let file = "/sections/contact-bs.html";
-  if(currentLang==="en") file = "/sections/contact-en.html";
-  if(currentLang==="de") file = "/sections/contact-de.html";
-  loadSection(file);
-}
-
-// =======================
-// PARTNERS
-// =======================
-function loadPartners(){
-  currentSectionFunc = loadPartners;
-  let file = "/sections/partners-bs.html";
-  if(currentLang==="en") file = "/sections/partners-en.html";
-  if(currentLang==="de") file = "/sections/partners-de.html";
-  loadSection(file);
-}
-
-// =======================
-// FOOTER
-// =======================
-fetch("/footer/footer.html")
-  .then(r => r.ok ? r.text() : "Greška učitavanja footera.")
-  .then(html => document.getElementById("footer").innerHTML = html);
-
-// =======================
-// INIT
-// =======================
-loadHome();
-</script>
-
+<script src="assets/app.js"></script>
 </body>
 </html>
+
+/* ==========================
+   FILE: assets/styles.css
+   ========================== */
+body { margin:0; font-family:Arial, sans-serif; background:#f2f2f2; }
+header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 20px;
+  background:#111;
+  color:#fff;
+}
+nav button {
+  margin-left:8px;
+  padding:8px 14px;
+  background:#333;
+  color:#fff;
+  border:none;
+  cursor:pointer;
+  border-radius:4px;
+}
+nav button:hover { background:#555; }
+#content {
+  padding:25px;
+  min-height:60vh;
+}
+#footer {
+  background:#111;
+  color:#fff;
+  text-align:center;
+  padding:25px;
+  margin-top:40px;
+}
+
+/* ==========================
+   FILE: assets/app.js
+   ========================== */
+async function includeHTML(path, targetID) {
+  try {
+    const response = await fetch(path);
+    if (!response.ok) throw new Error(`Fajl nije pronađen: ${path}`);
+    const html = await response.text();
+    document.getElementById(targetID).innerHTML = html;
+  } catch (e) {
+    document.getElementById(targetID).innerHTML = `<p style='color:red'>Greška: ${e}</p>`;
+  }
+}
+
+document.querySelectorAll('nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    includeHTML(btn.dataset.path, 'content');
+  });
+});
+
+includeHTML('home/home.html', 'content');
+includeHTML('footer/footer.html', 'footer');
+
+/* ==========================
+   EXAMPLE FILES
+   ========================== */
+
+/* home/home.html */
+<h1>Dobrodošli u Automatika PRO</h1>
+<p>Industrijska automatika – projekti, rješenja i inovacije.</p>
+
+/* aboutus/aboutus.html */
+<h1>O Nama</h1>
+<p>Mi smo tim stručnjaka za automatiku i industrijska rješenja.</p>
+
+/* services/services.html */
+<h1>Usluge</h1>
+<ul>
+ <li>PLC sistemi</li>
+ <li>Senzori i mjerne tehnologije</li>
+ <li>Industrijska rješenja</li>
+</ul>
+
+/* faq/faq.html */
+<h1>FAQ</h1>
+<p>Najčešća pitanja i odgovori.</p>
+
+/* partners/partners.html */
+<h1>Partneri</h1>
+<p>Naši pouzdani partneri u industriji.</p>
+
+/* contact/contact.html */
+<h1>Kontakt</h1>
+<p>Email: info@automatika-pro.com</p>
+
+/* footer/footer.html */
+<p>© 2025 Automatika PRO – Sva prava zadržana</p>
