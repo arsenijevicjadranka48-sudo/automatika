@@ -2,164 +2,123 @@
 <html lang="bs">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Automatika PRO</title>
 
 <style>
-body { margin:0; font-family: Arial, sans-serif; background:#f5f5f5; }
-header { display:flex; justify-content:space-between; align-items:center; padding:10px 20px; background:#111; color:#fff; flex-wrap:wrap; }
-header img { height:50px; }
-nav { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-nav button { padding:8px 14px; background:#333; color:#fff; border:none; cursor:pointer; border-radius:4px; }
+body { font-family: Arial; margin:0; background:#f2f2f2; }
+header { padding:15px; background:#111; color:#fff; }
+nav { background:#222; padding:10px; }
+nav button { padding:10px 15px; background:#333; border:none; color:#fff; cursor:pointer; border-radius:4px; }
 nav button:hover { background:#555; }
-nav button.active { background:#007bff; }
 
-#languages { position:absolute; top:15px; right:20px; }
-#languages select { padding:6px; }
+#content {
+  padding:20px;
+  min-height:300px;
+  background:white;
+  margin:20px;
+  border-radius:8px;
+  box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
 
-#content { padding:20px; min-height:300px; background:white; margin:20px; border-radius:10px; }
-
-footer { margin-top:40px; background:#222; color:#fff; padding:20px; text-align:center; }
-
-/* dugme za povratak na početnu */
 .back-home {
-  margin-top:25px;
+  margin-top:20px;
   padding:10px 18px;
   background:#007bff;
-  color:#fff;
   border:none;
+  color:white;
   border-radius:6px;
   cursor:pointer;
 }
-.back-home:hover { background:#005fcc; }
+.back-home:hover { background:#0062cc; }
+
+footer {
+  background:#111;
+  color:white;
+  text-align:center;
+  padding:20px;
+  margin-top:30px;
+}
 </style>
 </head>
+
 <body>
 
 <header>
-  <div style="display:flex; align-items:center; gap:10px;">
-    <img src="images/logo.png" alt="Automatika PRO Logo">
-    <h2>Automatika PRO</h2>
-  </div>
-
-  <div id="languages">
-    <select id="langSelect" onchange="changeLanguage(this.value)">
-      <option value="bs">Bosanski</option>
-      <option value="en">English</option>
-      <option value="de">Deutsch</option>
-    </select>
-  </div>
-
-  <nav>
-    <button id="btn-home" onclick="loadHome()">Home</button>
-    <button id="btn-about" onclick="loadAbout()">About Us</button>
-    <button id="btn-services" onclick="loadService()">Services</button>
-    <button id="btn-projects" onclick="loadProjects()">Projects</button>
-    <button id="btn-contact" onclick="loadContact()">Contact</button>
-    <button id="btn-partners" onclick="loadPartners()">Partners</button>
-  </nav>
+  <h1>Automatika PRO</h1>
 </header>
 
-<div id="content"></div>
-<footer id="footer"></footer>
+<nav>
+  <button onclick="loadHome()">Home</button>
+  <button onclick="loadFAQ()">FAQ</button>
+  <button onclick="loadAboutDE()">About DE</button>
+
+  <select id="langSelect" onchange="changeLang(this.value)" style="margin-left:20px; padding:6px;">
+    <option value="bs">Bosanski</option>
+    <option value="en">English</option>
+  </select>
+</nav>
+
+<div id="content">Učitavanje...</div>
+
+<footer id="footer">Učitavanje footera...</footer>
 
 <script>
+// ******************************
+// JEZIK
+// ******************************
 let currentLang = "bs";
-let currentSection = null;
 
-function changeLanguage(lang) {
+function changeLang(lang) {
   currentLang = lang;
-  if (currentSection) currentSection();
+  loadHome(); // reload home when language changes
 }
 
-function setActive(buttonId) {
-  document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("active"));
-  document.getElementById(buttonId).classList.add("active");
-}
-
-function loadSection(file) {
-  fetch(file)
-    .then(res => res.ok ? res.text() : Promise.reject("Greška: " + file))
+// ******************************
+// GENERIČKO UČITAVANJE SEKCIJA
+// ******************************
+function loadSection(path) {
+  fetch(path)
+    .then(r => r.ok ? r.text() : "<p style='color:red'>Greška: " + path + "</p>")
     .then(html => {
-      document.getElementById("content").innerHTML = 
-        html + `<button class="back-home" onclick="loadHome()">⬅ Povratak na početnu</button>`;
-    })
-    .catch(err => {
-      document.getElementById("content").innerHTML = `<p style='color:red;'>${err}</p>`;
+      document.getElementById("content").innerHTML =
+        html + `<button class='back-home' onclick='loadHome()'>⬅ Povratak na početnu</button>`;
     });
 }
 
+// ******************************
 // HOME
+// ******************************
 function loadHome() {
-  currentSection = loadHome;
-  setActive("btn-home");
-  let file = "home/home.html";
-  if (currentLang === "en") file = "home/home-en.html";
-  if (currentLang === "de") file = "home/home-de.html";
+  let file = "/home/home.html";
+
+  if (currentLang === "en") file = "/home/home-en.html";
+
   loadSection(file);
 }
 
-// ABOUT
-function loadAbout() {
-  currentSection = loadAbout;
-  setActive("btn-about");
-  let file = "sections/about/about.html";
-  if (currentLang === "en") file = "sections/about/about-en.html";
-  if (currentLang === "de") file = "sections/about/about-de.html";
-  loadSection(file);
+// ******************************
+// FAQ
+// ******************************
+function loadFAQ() {
+  loadSection("/faq/faq.html");
 }
 
-// SERVICES
-function loadService() {
-  currentSection = loadService;
-  setActive("btn-services");
-  let file = "sections/service/services.html";
-  if (currentLang === "en") file = "sections/service/service-en.html";
-  if (currentLang === "de") file = "sections/service/service-de.html";
-  loadSection(file);
+// ******************************
+// ABOUT DE
+// ******************************
+function loadAboutDE() {
+  loadSection("/sections/about-de.html");
 }
 
-// PROJECTS
-function loadProjects() {
-  currentSection = loadProjects;
-  setActive("btn-projects");
-  let file = "sections/projects/projects.html";
-  if (currentLang === "en") file = "sections/projects/projects-en.html";
-  if (currentLang === "de") file = "sections/projects/projects-de.html";
-  loadSection(file);
-}
-
-// CONTACT
-function loadContact() {
-  currentSection = loadContact;
-  setActive("btn-contact");
-  let file = "kontakt/contact.html";
-  if (currentLang === "en") file = "kontakt/contact-en.html";
-  if (currentLang === "de") file = "kontakt/contact-de.html";
-  loadSection(file);
-}
-
-// PARTNERS
-function loadPartners() {
-  currentSection = loadPartners;
-  setActive("btn-partners");
-  let file = "partners/partners.html";
-  if (currentLang === "en") file = "partners/partners-en.html";
-  if (currentLang === "de") file = "partners/partners-de.html";
-  loadSection(file);
-}
-
+// ******************************
 // FOOTER
-function loadFooter() {
-  fetch("footer/footer.html")
-    .then(res => res.ok ? res.text() : Promise.reject("Greška učitavanja footera"))
-    .then(html => document.getElementById("footer").innerHTML = html)
-    .catch(err => document.getElementById("footer").innerHTML = err);
-}
+// ******************************
+fetch("/footer/footer.html")
+  .then(r => r.ok ? r.text() : "Greška učitavanja footera.")
+  .then(html => document.getElementById("footer").innerHTML = html);
 
-// INITIAL LOAD
+// INIT – učitaj početnu
 loadHome();
-loadFooter();
 </script>
 
 </body>
