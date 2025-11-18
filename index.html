@@ -1,39 +1,94 @@
 <!DOCTYPE html>
 <html lang="bs">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automatika PRO</title>
-<style>
-body { margin:0; font-family: Arial, sans-serif; background:#f4f4f4; }
-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px 20px;
-  background:#111;
-  color:#fff;
-  flex-wrap:wrap;
-}
-header img { height:55px; border-radius:8px; }
-nav { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-nav button { padding:8px 14px; background:#333; color:#fff; border:none; cursor:pointer; border-radius:4px; }
-nav button:hover { background:#555; }
-#languages { margin-left:auto; }
-#languages select { padding:6px; }
-#content { padding:20px; min-height:350px; background:white; margin:20px; border-radius:6px; }
-.back-home { margin-top:20px; padding:10px 18px; background:#007bff; border:none; color:white; border-radius:6px; cursor:pointer; }
-.back-home:hover { background:#0062cc; }
-footer { background:#222; color:#fff; padding:20px; text-align:center; margin-top:40px; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automatika PRO</title>
+  <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
 
 <header>
-  <div style="display:flex; align-items:center; gap:10px;">
-    <img src="/mca.jpg" alt="Logo">
-    <h2>Automatika PRO</h2>
+  <h1>Automatika PRO</h1>
+
+  <nav>
+    <button data-path="home/home.html">Početna</button>
+    <button data-path="sections/aboutus.html">O nama</button>
+    <button data-path="services/services.html">Usluge</button>
+    <button data-path="faq/faq.html">FAQ</button>
+    <button data-path="partners/partners.html">Partneri</button>
+
+    <!-- ROOT kontakt sekcija -->
+    <button data-path="contact.html">Kontakt</button>
+  </nav>
+
+  <div id="languages">
+    <select id="langSelect">
+      <option value="bs">BS</option>
+      <option value="en">EN</option>
+      <option value="de">DE</option>
+    </select>
   </div>
+</header>
+
+<!-- Dinamički sadržaj -->
+<div id="content"></div>
+
+<!-- Footer -->
+<footer id="footer"></footer>
+
+<script>
+// ================================
+// Dynamic section loader
+// ================================
+async function loadSection(path) {
+  try {
+    const response = await fetch(path);
+    if (!response.ok) throw new Error("404 - File not found: " + path);
+    const html = await response.text();
+    document.getElementById("content").innerHTML = html;
+  } catch (err) {
+    document.getElementById("content").innerHTML =
+      "<p style='padding:20px;color:red'>" + err + "</p>";
+  }
+}
+
+// ================================
+// Load footer
+// ================================
+async function loadFooter() {
+  try {
+    const res = await fetch("footer/footer.html");
+    const html = await res.text();
+    document.getElementById("footer").innerHTML = html;
+  } catch {
+    document.getElementById("footer").innerHTML = "<p style='color:red'>Footer nije pronađen.</p>";
+  }
+}
+
+// ================================
+// Navigation buttons
+// ================================
+document.querySelectorAll("nav button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const section = btn.dataset.path;
+    loadSection(section);
+  });
+});
+
+// ================================
+// Default section
+// (promijeni ako želiš root kontakt kao početnu)
+// ================================
+loadSection("home/home.html");
+
+// Footer load
+loadFooter();
+
+</script>
+
+</body>
+</html>
   <div id="languages">
     <select id="langSelect" onchange="changeLanguage(this.value)">
       <option value="bs">Bosanski</option>
