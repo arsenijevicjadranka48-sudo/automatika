@@ -1,10 +1,94 @@
-<section id="about">
-  <h2>Über uns</h2>
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+<meta charset="UTF-8">
+<title>Automatika PRO</title>
 
-  <p>
-    Automatika PRO ist ein Team von Ingenieuren und Technikern, spezialisiert auf industrielle
-    Automatisierung, IoT-Lösungen, Elektronik, Mikrocontrollersysteme und intelligente Technologien.
-    Unsere Mission ist es, zuverlässige, moderne und energieeffiziente Lösungen zu liefern, die auf
-    die Bedürfnisse von Einzelpersonen und Unternehmen zugeschnitten sind.
-  </p>
-</section>
+<style>
+body { font-family: Arial; margin:0; background:#f2f2f2; }
+header { padding:15px; background:#111; color:#fff; }
+nav { background:#222; padding:10px; }
+nav button { padding:10px 15px; background:#333; border:none; color:#fff; cursor:pointer; }
+nav button:hover { background:#555; }
+
+#content {
+  padding:20px;
+  min-height:300px;
+  background:white;
+  margin:20px;
+  border-radius:8px;
+  box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.back-home {
+  margin-top:20px;
+  padding:10px 18px;
+  background:#007bff;
+  border:none;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
+}
+.back-home:hover { background:#0062cc; }
+
+footer {
+  background:#111;
+  color:white;
+  text-align:center;
+  padding:20px;
+  margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Automatika PRO</h1>
+</header>
+
+<nav>
+  <button onclick="loadHome()">Home</button>
+  <button onclick="loadFAQ()">FAQ</button>
+  <button onclick="loadAboutDE()">About (DE)</button>
+</nav>
+
+<div id="content">Učitavanje...</div>
+
+<footer id="footer">Učitavanje footera...</footer>
+
+<script>
+/* GENERAL FUNCTION */
+function loadSection(path) {
+  fetch(path)
+    .then(r => r.ok ? r.text() : "<p style='color:red'>Greška učitavanja: " + path + "</p>")
+    .then(html => {
+      document.getElementById("content").innerHTML =
+        html + `<button class='back-home' onclick='loadHome()'>⬅ Povratak na početnu</button>`;
+    });
+}
+
+/* SECTIONS */
+function loadHome() {
+  loadSection("/home/home.html");
+}
+
+function loadFAQ() {
+  loadSection("/faq/faq.html");
+}
+
+function loadAboutDE() {
+  loadSection("/sections/about-de.html");
+}
+
+/* LOAD FOOTER */
+fetch("/footer/footer.html")
+  .then(r => r.ok ? r.text() : "Greška učitavanja footera.")
+  .then(html => document.getElementById("footer").innerHTML = html);
+
+/* INITIAL PAGE */
+loadHome();
+</script>
+
+</body>
+</html>
