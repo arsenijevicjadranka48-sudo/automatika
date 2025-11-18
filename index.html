@@ -2,9 +2,10 @@
 <html lang="bs">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Automatika PRO</title>
 <style>
-body { font-family: Arial; margin:0; background:#f2f2f2; }
+body { font-family: Arial, sans-serif; margin:0; background:#f2f2f2; }
 header { padding:15px; background:#111; color:#fff; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; }
 nav { background:#222; padding:10px; flex:1 1 100%; display:flex; flex-wrap:wrap; gap:5px; }
 nav button { padding:10px 15px; background:#333; border:none; color:#fff; cursor:pointer; border-radius:4px; }
@@ -42,28 +43,23 @@ footer { background:#111; color:white; text-align:center; padding:20px; margin-t
 <footer id="footer">Učitavanje footera...</footer>
 
 <script>
-// *********************
-// JEZIK
-// *********************
+// =======================
+// GLOBALNE VARIJABLE
+// =======================
 let currentLang = "bs";
-
-function changeLang(lang){
-  currentLang = lang;
-  loadCurrentSection();
-}
-
-// *********************
-// POMOĆNA FUNKCIJA
-// *********************
 let currentSectionFunc = null;
 
-function loadCurrentSection(){
+// =======================
+// JEZIK
+// =======================
+function changeLang(lang){
+  currentLang = lang;
   if(currentSectionFunc) currentSectionFunc();
 }
 
-// *********************
+// =======================
 // GENERIČKO UČITAVANJE SEKCIJE
-// *********************
+// =======================
 function loadSection(path){
   fetch(path)
     .then(r => r.ok ? r.text() : "<p style='color:red'>Greška: " + path + "</p>")
@@ -73,9 +69,9 @@ function loadSection(path){
     });
 }
 
-// *********************
+// =======================
 // HOME
-// *********************
+// =======================
 function loadHome(){
   currentSectionFunc = loadHome;
   let file = "/home/home.html";
@@ -84,18 +80,17 @@ function loadHome(){
   loadSection(file);
 }
 
-// *********************
+// =======================
 // FAQ
-// *********************
+// =======================
 function loadFAQ(){
   currentSectionFunc = loadFAQ;
-  let file = "/faq/faq.html";
-  loadSection(file);
+  loadSection("/faq/faq.html");
 }
 
-// *********************
+// =======================
 // ABOUT
-// *********************
+// =======================
 function loadAbout(){
   currentSectionFunc = loadAbout;
   let file = "/sections/about-bs.html";
@@ -104,20 +99,20 @@ function loadAbout(){
   loadSection(file);
 }
 
-// *********************
+// =======================
 // SERVICES
-// *********************
+// =======================
 function loadServices(){
   currentSectionFunc = loadServices;
-  let file = "/sections/service-bs.html";
-  if(currentLang==="en") file = "/sections/service-en.html";
-  if(currentLang==="de") file = "/sections/service-de.html";
+  let file = "/automatika/sections/service/services.html"; // BS
+  if(currentLang === "en") file = "/automatika/sections/service/services-en.html";
+  if(currentLang === "de") file = "/automatika/sections/service/services-de.html";
   loadSection(file);
 }
 
-// *********************
+// =======================
 // PROJECTS
-// *********************
+// =======================
 function loadProjects(){
   currentSectionFunc = loadProjects;
   let file = "/sections/projects-bs.html";
@@ -126,9 +121,9 @@ function loadProjects(){
   loadSection(file);
 }
 
-// *********************
+// =======================
 // CONTACT
-// *********************
+// =======================
 function loadContact(){
   currentSectionFunc = loadContact;
   let file = "/sections/contact-bs.html";
@@ -137,9 +132,9 @@ function loadContact(){
   loadSection(file);
 }
 
-// *********************
+// =======================
 // PARTNERS
-// *********************
+// =======================
 function loadPartners(){
   currentSectionFunc = loadPartners;
   let file = "/sections/partners-bs.html";
@@ -148,16 +143,16 @@ function loadPartners(){
   loadSection(file);
 }
 
-// *********************
+// =======================
 // FOOTER
-// *********************
+// =======================
 fetch("/footer/footer.html")
   .then(r => r.ok ? r.text() : "Greška učitavanja footera.")
   .then(html => document.getElementById("footer").innerHTML = html);
 
-// *********************
+// =======================
 // INIT
-// *********************
+// =======================
 loadHome();
 </script>
 
