@@ -7,42 +7,50 @@
 
   <!-- Osnovni stilovi -->
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    header, footer { background-color: #222; color: #fff; padding: 20px; }
-    nav a { color: #fff; margin-right: 15px; text-decoration: none; font-weight: bold; }
-    nav a:hover { text-decoration: underline; }
-    section { padding: 40px 20px; border-bottom: 1px solid #ccc; }
-    .btn {
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; scroll-behavior: smooth; }
+    header, footer { background-color: #222; color: #fff; padding: 20px; position: sticky; top: 0; z-index: 1000; }
+    nav { display: flex; justify-content: center; }
+    nav a {
       display: inline-block;
       padding: 10px 20px;
       background-color: #007BFF;
       color: #fff;
       text-decoration: none;
       border-radius: 5px;
-      margin-top: 10px;
+      margin: 0 5px;
+      transition: background 0.3s;
     }
-    .btn:hover { background-color: #0056b3; }
+    nav a:hover { background-color: #0056b3; }
+    section { padding: 60px 20px; border-bottom: 1px solid #ccc; }
   </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<section data-include="header/header.html"></section>
+<!-- HEADER sa navigacijom -->
+<header>
+  <nav>
+    <a href="#home">Početna</a>
+    <a href="#about">O nama</a>
+    <a href="#services">Usluge</a>
+    <a href="#kontakt">Kontakt</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+</header>
 
 <!-- HOME SEKCIJE -->
-<section data-include="home/home.html"></section>
-<section data-include="home/home-de.html"></section>
+<section id="home" data-include="home/home.html"></section>
+<section id="home-de" data-include="home/home-de.html"></section>
 
 <!-- ABOUT SEKCIJA -->
-<section data-include="sections/about.html"></section>
+<section id="about" data-include="sections/about.html"></section>
 
 <!-- KONTAKT SEKCIJE -->
-<section data-include="kontakt/contact.html"></section>
+<section id="kontakt" data-include="kontakt/contact.html"></section>
 <section data-include="kontakt/contactde.html"></section>
 <section data-include="kontakt/contacten.html"></section>
 
 <!-- FAQ SEKCIJE -->
-<section data-include="faq/faq.html"></section>
+<section id="faq" data-include="faq/faq.html"></section>
 <section data-include="faq/faqde.html"></section>
 <section data-include="faq/faqen.html"></section>
 
