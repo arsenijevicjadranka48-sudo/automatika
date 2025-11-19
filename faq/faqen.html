@@ -26,23 +26,23 @@
         </nav>
     </header>
 
-    <!-- SEKCIJE KOJE SE UČITAVAJU -->
+    <!-- OVDJE ĆE SE UBACITI TVOJE SEKCIJE -->
     <section id="faq-bs"></section>
     <section id="faq-de"></section>
     <section id="faq-en"></section>
 
-    <!-- FUNKCIJA ZA UČITAVANJE SEKCIJA -->
+    <!-- FUNKCIJA ZA UČITAVANJE -->
     <script>
-        function loadSection(sectionPath, targetId) {
-            fetch(sectionPath)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById(targetId).innerHTML = data;
+        function loadSection(path, target) {
+            fetch(path)
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById(target).innerHTML = html;
                 })
-                .catch(error => console.error("Greška:", error));
+                .catch(err => console.error("Greška pri učitavanju:", err));
         }
 
-        // UČITAVANJE 3 FAQ SEKCIJE
+        /* UČITAVAMO TVOJE PRAVE SEKCIJE IZ REPOA */
         loadSection("faq/faq.html", "faq-bs");
         loadSection("faq/faqde.html", "faq-de");
         loadSection("faq/faqen.html", "faq-en");
