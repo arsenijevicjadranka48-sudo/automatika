@@ -1,16 +1,47 @@
-<!-- Prva sekcija -->
-<section id="kontakt">
-  <div class="container">
-    <h2>Kontakt</h2>
-    <p>Ukoliko imate pitanja, primjedbe ili želite surađivati, slobodno nam se obratite.</p>
-  </div>
-</section>
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automatika</title>
+</head>
 
-<!-- Druga sekcija -->
-<section id="lokacija">
-  <div class="container">
-    <h2>Naša lokacija</h2>
-    <p>Adresa: Ul. Primjera 12, 71000 Sarajevo, Bosna i Hercegovina</p>
-    <p>Telefon: +387 33 123 456</p>
-  </div>
-</section>
+<body>
+
+<!-- HEADER -->
+<section data-include="header/header.html"></section>
+
+<!-- O NAMA -->
+<section data-include="sections/about/about.html"></section>
+
+<!-- USLUGE -->
+<section data-include="sections/service/services.html"></section>
+
+<!-- KONTAKT -->
+<section data-include="sections/contact/contact.html"></section>
+
+<!-- FOOTER -->
+<section data-include="footer/footer.html"></section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("[data-include]").forEach(async (element) => {
+    const file = element.getAttribute("data-include");
+    try {
+      const response = await fetch(file);
+      if (!response.ok) {
+        element.innerHTML = `<p style="color:red;">Greška: ne mogu učitati ${file}</p>`;
+        return;
+      }
+      const content = await response.text();
+      element.innerHTML = content;
+    } catch (error) {
+      element.innerHTML = `<p style="color:red;">Greška prilikom učitavanja: ${file}</p>`;
+      console.error("Fetch error:", error);
+    }
+  });
+});
+</script>
+
+</body>
+</html>
