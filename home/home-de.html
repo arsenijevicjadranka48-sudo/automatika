@@ -1,28 +1,60 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="bs">
 <head>
-<meta charset="UTF-8">
-<title>Startseite - Automatika PRO</title>
-<style>
-.home-container { max-width: 1000px; margin:auto; padding:20px; }
-h1 { color:#111; text-align:center; }
-p { line-height:1.6; text-align:center; }
-.banner-image { width:100%; max-height:400px; object-fit:cover; margin-bottom:20px; border-radius:8px; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automatika</title>
+
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    header, footer { background: #222; color: #fff; padding: 20px; }
+    nav a { color: #fff; margin-right: 15px; text-decoration: none; font-weight: bold; }
+    nav a:hover { text-decoration: underline; }
+    section { padding: 20px; }
+  </style>
 </head>
 <body>
 
-<div class="home-container">
-  <img src="../images/home-banner.jpg" alt="Automatika PRO" class="banner-image">
-  <h1>Willkommen bei Automatika PRO</h1>
-  <p>
-    Automatika PRO bietet professionelle Lösungen im Bereich Automatisierung und industrielle Steuerung. 
-    Unser Expertenteam setzt moderne Technologien ein, um die Produktion zu optimieren und die Effizienz zu steigern.
-  </p>
-  <p>
-    Entdecken Sie unsere Dienstleistungen, Projekte und Partner, um mehr über unsere Lösungen zu erfahren.
-  </p>
-</div>
+<!-- HEADER -->
+<section data-include="header/header.html"></section>
+
+<!-- HOME SEKCIJE -->
+<section data-include="home/home.html"></section>
+<section data-include="home/home-de.html"></section>
+
+<!-- KONTAKT SEKCIJE -->
+<section data-include="kontakt/contact.html"></section>
+<section data-include="kontakt/contactde.html"></section>
+<section data-include="kontakt/contacten.html"></section>
+
+<!-- FAQ SEKCIJE -->
+<section data-include="faq/faq.html"></section>
+<section data-include="faq/faqde.html"></section>
+<section data-include="faq/faqen.html"></section>
+
+<!-- FOOTER -->
+<section data-include="footer/footer.html"></section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const sections = document.querySelectorAll("[data-include]");
+  sections.forEach(async (el) => {
+    const path = el.getAttribute("data-include");
+    try {
+      const res = await fetch(path);
+      if (!res.ok) {
+        el.innerHTML = `<p style="color:red;">Greška: ne mogu učitati ${path}</p>`;
+        return;
+      }
+      const html = await res.text();
+      el.innerHTML = html;
+    } catch (err) {
+      el.innerHTML = `<p style="color:red;">Greška prilikom učitavanja ${path}</p>`;
+      console.error("Fetch error:", err);
+    }
+  });
+});
+</script>
 
 </body>
 </html>
