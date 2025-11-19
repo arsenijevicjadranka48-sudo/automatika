@@ -1,30 +1,114 @@
-contact/conta<section id="contact">
-  <h2 class="lang lang-bs">Kontakt</h2>
-  <h2 class="lang lang-en">Contact</h2>
-  <h2 class="lang lang-de">Kontakt</h2>
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatika - Dinamičko Učitavanje Sadržaja</title>
+    <style>
+        .section-content {
+            display: none;
+            padding: 20px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
 
-  <form action="mailto:halilovicnusret8@gmail.com" method="POST" enctype="text/plain" style="max-width:500px; margin:auto; display:flex; flex-direction:column; gap:10px;">
+        .section-content.active {
+            display: block;
+        }
 
-    <!-- Name -->
-    <input type="text" name="name" placeholder="Vaše ime" class="lang lang-bs" required>
-    <input type="text" name="name" placeholder="Your Name" class="lang lang-en" required>
-    <input type="text" name="name" placeholder="Ihr Name" class="lang lang-de" required>
+        header img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+        }
 
-    <!-- Email -->
-    <input type="email" name="email" placeholder="Vaš e-mail" class="lang lang-bs" required>
-    <input type="email" name="email" placeholder="Your Email" class="lang lang-en" required>
-    <input type="email" name="email" placeholder="Ihre E-Mail" class="lang lang-de" required>
+        nav button {
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
 
-    <!-- Message -->
-    <textarea name="message" placeholder="Unesite vašu poruku..." class="lang lang-bs" required></textarea>
-    <textarea name="message" placeholder="Enter your message..." class="lang lang-en" required></textarea>
-    <textarea name="message" placeholder="Geben Sie Ihre Nachricht ein..." class="lang lang-de" required></textarea>
+    <header>
+        <h1>Automatika Projekat</h1>
+        <img src="mca.jpg" alt="Slika u headeru projekta Automatika">
+    </header>
 
-    <!-- Submit Button -->
-    <button type="submit" class="lang lang-bs">Pošalji poruku</button>
-    <button type="submit" class="lang lang-en">Send Message</button>
-    <button type="submit" class="lang lang-de">Nachricht senden</button>
+    <nav style="text-align: center; margin: 20px 0;">
+        <button onclick="loadSection('home', 'home/index.html')">🏠 Naslovna (simulacija)</button>
+        <button onclick="loadSection('kontakt', 'kontakt.html')">📞 Kontakt (fajl)</button>
+        <button onclick="loadSection('services', 'services-sr.html')">⚙️ Usluge (fajl)</button>
+        <button onclick="loadSection('reviews', 'reviews-sr.html')">⭐ Recenzije (fajl)</button>
+        <button onclick="loadSection('faq', 'faq/faq.html')">❓ FAQ (simulacija)</button>
+    </nav>
 
-  </form>
-</section>
-ct.html
+    <main>
+        <section id="content-display" class="section-content active">
+            <h2>Dobrodošli!</h2>
+            <p>Kliknite na jedno od dugmadi iznad da biste dinamički učitali sadržaj iz odgovarajuće datoteke projekta.</p>
+        </section>
+    </main>
+
+    <script>
+        // Inicijalna mapa sa putanjama do fajlova
+        const sectionMap = {
+            'kontakt': 'kontakt.html',
+            'services': 'services-sr.html', // Koristimo fajl koji postoji u vašem repozitorijumu
+            'reviews': 'reviews-sr.html',
+            'home': 'index.html', // Možete promeniti 'index.html' ako želite
+            // Ovi su pretpostavke za foldere
+            'faq': 'faq/faq.html',
+            'partners': 'partners/index.html'
+        };
+
+        const contentDisplay = document.getElementById('content-display');
+
+        async function loadSection(sectionName, filePath) {
+            // Skriva trenutni sadržaj i prikazuje poruku o učitavanju
+            contentDisplay.innerHTML = '<h2>Učitavanje...</h2><p>Pokušavam da učitam sadržaj iz datoteke: <b>' + filePath + '</b></p>';
+            contentDisplay.classList.add('active'); // Održava sekciju vidljivom
+
+            try {
+                // 1. Dinamički FETCH zahtev za datoteku
+                const response = await fetch(filePath);
+
+                if (!response.ok) {
+                    throw new Error(`Greška HTTP: ${response.status} - Datoteka nije pronađena ili nedostupna.`);
+                }
+
+                // 2. Čitanje teksta datoteke
+                const htmlContent = await response.text();
+
+                // 3. Uklonite head, body tagove i zadržite samo stvarni sadržaj
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlContent, 'text/html');
+                
+                // Učitajte sadržaj body-a, ako postoji
+                const newContent = doc.body ? doc.body.innerHTML : htmlContent;
+
+                // 4. Ubacivanje sadržaja u sekciju
+                contentDisplay.innerHTML = `<h2>${sectionName.toUpperCase()} - Sadržaj učitan</h2>` + newContent;
+
+            } catch (error) {
+                // Prikaz greške ako Fetch ne uspe
+                contentDisplay.innerHTML = `
+                    <h2>Greška pri učitavanju ${sectionName.toUpperCase()} sekcije</h2>
+                    <p style="color: red;">${error.message}</p>
+                    <p>Proverite da li datoteka <b>${filePath}</b> postoji na lokaciji i da li je pokrenut lokalni server (npr. Live Server).</p>
+                `;
+            }
+        }
+        
+        // Učitaj početni sadržaj prilikom pokretanja
+        loadSection('home', 'index.html');
+    </script>
+
+</body>
+</html>
