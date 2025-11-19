@@ -1,114 +1,19 @@
-<!DOCTYPE html>
-<html lang="sr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automatika - Dinamičko Učitavanje Sadržaja</title>
-    <style>
-        .section-content {
-            display: none;
-            padding: 20px;
-            margin-top: 10px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-        }
+<main>
+    <section id="content-display" class="section-content active">
+        <iframe id="section-iframe" style="width: 100%; height: 600px; border: 1px solid blue;"></iframe>
+    </section>
+</main>
 
-        .section-content.active {
-            display: block;
-        }
-
-        header img {
-            width: 100%;
-            max-height: 200px;
-            object-fit: cover;
-        }
-
-        nav button {
-            padding: 10px 15px;
-            margin: 5px;
-            cursor: pointer;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            border-radius: 5px;
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>Automatika Projekat</h1>
-        <img src="mca.jpg" alt="Slika u headeru projekta Automatika">
-    </header>
-
-    <nav style="text-align: center; margin: 20px 0;">
-        <button onclick="loadSection('home', 'home/index.html')">🏠 Naslovna (simulacija)</button>
-        <button onclick="loadSection('kontakt', 'kontakt.html')">📞 Kontakt (fajl)</button>
-        <button onclick="loadSection('services', 'services-sr.html')">⚙️ Usluge (fajl)</button>
-        <button onclick="loadSection('reviews', 'reviews-sr.html')">⭐ Recenzije (fajl)</button>
-        <button onclick="loadSection('faq', 'faq/faq.html')">❓ FAQ (simulacija)</button>
-    </nav>
-
-    <main>
-        <section id="content-display" class="section-content active">
-            <h2>Dobrodošli!</h2>
-            <p>Kliknite na jedno od dugmadi iznad da biste dinamički učitali sadržaj iz odgovarajuće datoteke projekta.</p>
-        </section>
-    </main>
-
-    <script>
-        // Inicijalna mapa sa putanjama do fajlova
-        const sectionMap = {
-            'kontakt': 'kontakt.html',
-            'services': 'services-sr.html', // Koristimo fajl koji postoji u vašem repozitorijumu
-            'reviews': 'reviews-sr.html',
-            'home': 'index.html', // Možete promeniti 'index.html' ako želite
-            // Ovi su pretpostavke za foldere
-            'faq': 'faq/faq.html',
-            'partners': 'partners/index.html'
-        };
-
-        const contentDisplay = document.getElementById('content-display');
-
-        async function loadSection(sectionName, filePath) {
-            // Skriva trenutni sadržaj i prikazuje poruku o učitavanju
-            contentDisplay.innerHTML = '<h2>Učitavanje...</h2><p>Pokušavam da učitam sadržaj iz datoteke: <b>' + filePath + '</b></p>';
-            contentDisplay.classList.add('active'); // Održava sekciju vidljivom
-
-            try {
-                // 1. Dinamički FETCH zahtev za datoteku
-                const response = await fetch(filePath);
-
-                if (!response.ok) {
-                    throw new Error(`Greška HTTP: ${response.status} - Datoteka nije pronađena ili nedostupna.`);
-                }
-
-                // 2. Čitanje teksta datoteke
-                const htmlContent = await response.text();
-
-                // 3. Uklonite head, body tagove i zadržite samo stvarni sadržaj
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlContent, 'text/html');
-                
-                // Učitajte sadržaj body-a, ako postoji
-                const newContent = doc.body ? doc.body.innerHTML : htmlContent;
-
-                // 4. Ubacivanje sadržaja u sekciju
-                contentDisplay.innerHTML = `<h2>${sectionName.toUpperCase()} - Sadržaj učitan</h2>` + newContent;
-
-            } catch (error) {
-                // Prikaz greške ako Fetch ne uspe
-                contentDisplay.innerHTML = `
-                    <h2>Greška pri učitavanju ${sectionName.toUpperCase()} sekcije</h2>
-                    <p style="color: red;">${error.message}</p>
-                    <p>Proverite da li datoteka <b>${filePath}</b> postoji na lokaciji i da li je pokrenut lokalni server (npr. Live Server).</p>
-                `;
-            }
-        }
-        
-        // Učitaj početni sadržaj prilikom pokretanja
-        loadSection('home', 'index.html');
-    </script>
-
-</body>
-</html>
+<script>
+    function loadSectionIframe(filePath) {
+        const iframe = document.getElementById('section-iframe');
+        iframe.src = filePath;
+    }
+    
+    // Zamenite dugmad sa pozivima za iframe:
+    // <button onclick="loadSectionIframe('kontakt.html')">📞 Kontakt (fajl)</button>
+    // ...
+    
+    // Učitaj početni fajl
+    loadSectionIframe('index.html');
+</script>
