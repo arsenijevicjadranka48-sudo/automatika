@@ -5,12 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Automatika</title>
 
+  <!-- Osnovni stilovi -->
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
     header, footer { background-color: #222; color: #fff; padding: 20px; }
     nav a { color: #fff; margin-right: 15px; text-decoration: none; font-weight: bold; }
     nav a:hover { text-decoration: underline; }
-    section { padding: 20px; }
+    section { padding: 40px 20px; border-bottom: 1px solid #ccc; }
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    .btn:hover { background-color: #0056b3; }
   </style>
 </head>
 <body>
@@ -38,6 +49,7 @@
 <!-- FOOTER -->
 <section data-include="footer/footer.html"></section>
 
+<!-- Skripta za učitavanje sekcija -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const sections = document.querySelectorAll("[data-include]");
