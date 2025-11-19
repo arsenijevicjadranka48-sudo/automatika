@@ -4,41 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Automatika</title>
-</head>
 
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    header, footer { background: #222; color: #fff; padding: 20px; }
+    nav a { color: #fff; margin-right: 15px; text-decoration: none; font-weight: bold; }
+    nav a:hover { text-decoration: underline; }
+    section { padding: 20px; }
+  </style>
+</head>
 <body>
 
 <!-- HEADER -->
 <section data-include="header/header.html"></section>
 
-<!-- O NAMA -->
-<section data-include="sections
- /about/about.html"></section>
-
-<!-- USLUGE -->
-<section data-include=" /service/services.html"></section>
-
-<!-- KONTAKT -->
-<section data-include="/contact/contact.html"></section>
+<!-- SEKCIJE -->
+<section data-include="sections/about/about.html"></section>
+<section data-include="sections/service/services.html"></section>
+<section data-include="sections/contact/contact.html"></section>
+<section data-include="sections/faq/faq.html"></section>
+<section data-include="sections/faq/faqde.html"></section>
+<section data-include="sections/faq/faqen.html"></section>
 
 <!-- FOOTER -->
 <section data-include="footer/footer.html"></section>
 
 <script>
+// Funkcija za učitavanje svih sekcija
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("[data-include]").forEach(async (element) => {
-    const file = element.getAttribute("data-include");
+  const sections = document.querySelectorAll("[data-include]");
+  sections.forEach(async (el) => {
+    const path = el.getAttribute("data-include");
     try {
-      const response = await fetch(file);
-      if (!response.ok) {
-        element.innerHTML = `<p style="color:red;">Greška: ne mogu učitati ${file}</p>`;
+      const res = await fetch(path);
+      if (!res.ok) {
+        el.innerHTML = `<p style="color:red;">Greška: ne mogu učitati ${path}</p>`;
         return;
       }
-      const content = await response.text();
-      element.innerHTML = content;
-    } catch (error) {
-      element.innerHTML = `<p style="color:red;">Greška prilikom učitavanja: ${file}</p>`;
-      console.error("Fetch error:", error);
+      const html = await res.text();
+      el.innerHTML = html;
+    } catch (err) {
+      el.innerHTML = `<p style="color:red;">Greška prilikom učitavanja ${path}</p>`;
+      console.error("Fetch error:", err);
     }
   });
 });
