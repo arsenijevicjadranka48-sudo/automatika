@@ -1,60 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automatika Modularno</title>
-<style>
-  body { font-family: Arial, sans-serif; margin:0; padding:0; }
-  header { height: 250px; background-size: cover; background-position: center; transition: background 0.3s ease; }
-  nav { display: flex; flex-wrap: wrap; gap: 10px; padding: 10px; background:#333; }
-  nav button { color:white; background:#555; border:none; padding:10px 15px; cursor:pointer; border-radius:5px; }
-  nav button:hover { background:#777; }
-  #content { padding:20px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatika - Prikaz Sekcija</title>
+    <style>
+        /* OSNOVNI CSS ZA SKRIVANJE SEKCIJA */
+        .section-content {
+            display: none; /* Podrazumevano sakrij sve sekcije */
+            padding: 20px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+
+        /* PRIKAZ AKTIVNE SEKCIJE */
+        .section-content.active {
+            display: block; /* Prikazuje aktivnu sekciju */
+        }
+
+        /* STIL ZA HEADER */
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header img {
+            width: 100%; /* Prikaz slike preko celog headera */
+            max-height: 200px; /* Ograničite visinu radi boljeg izgleda */
+            object-fit: cover; /* Osigurava da slika pokrije prostor bez deformisanja */
+        }
+
+        nav button {
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+
+        nav button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
 
-<header id="header"></header>
+    <header>
+        <h1>Automatika Projekat</h1>
+        <img id="header-image" src="mca.jpg" alt="Slika u headeru projekta Automatika">
+    </header>
 
-<nav>
-  <button data-section="home/index.html">Home</button>
-  <button data-section="faq/index.html">FAQ</button>
-  <button data-section="services/index.html">Services</button>
-  <button data-section="kontakt.html">Kontakt</button>
-  <button data-section="partners/index.html">Partners</button>
-  <button data-section="sections/index.html">Sections</button>
-  <button data-section="footer/index.html">Footer</button>
-</nav>
+    <nav style="text-align: center; margin: 20px 0;">
+        <button onclick="showSection('home')">🏠 Naslovna</button>
+        <button onclick="showSection('services')">⚙️ Usluge</button>
+        <button onclick="showSection('faq')">❓ FAQ</button>
+        <button onclick="showSection('partners')">🤝 Partneri</button>
+        <button onclick="showSection('kontakt')">📞 Kontakt</button>
+        <button onclick="showSection('footer')">⬇️ Footer Info</button>
+        <button onclick="showSection('sections')">📦 Ostale Sekcije</button>
+    </nav>
 
-<div id="content">
-  <!-- Sadržaj sekcije će se učitati ovdje -->
-</div>
+    <main>
+        <section id="home-section" class="section-content active">
+            <h2>Naslovna Stranica</h2>
+            <p>Ovo je sadržaj iz foldera "home/". Dobrodošli na našu stranicu o Automatici!</p>
+        </section>
 
-<script>
-const header = document.getElementById('header');
-const content = document.getElementById('content');
-const buttons = document.querySelectorAll('nav button');
+        <section id="services-section" class="section-content">
+            <h2>Naše Usluge</h2>
+            <p>Ovo je sadržaj iz foldera "services/". Ovde će biti opisane sve usluge koje nudimo (npr. automatizacija, projekti...).</p>
+        </section>
 
-function loadSection(filePath) {
-  fetch(filePath)
-    .then(res => res.text())
-    .then(html => content.innerHTML = html)
-    .catch(err => content.innerHTML = "<p>Greška pri učitavanju sadržaja.</p>");
-  header.style.backgroundImage = "url('mca.jpg')";
-}
+        <section id="faq-section" class="section-content">
+            <h2>Često Postavljena Pitanja (FAQ)</h2>
+            <p>Ovo je sadržaj iz foldera "faq/". Pronađite odgovore na najčešća pitanja.</p>
+        </section>
 
-// Poveži dugmiće
-buttons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const file = btn.dataset.section;
-    loadSection(file);
-  });
-});
+        <section id="partners-section" class="section-content">
+            <h2>Naši Partneri</h2>
+            <p>Ovo je sadržaj iz foldera "partners/". Spisak kompanija i saradnika.</p>
+        </section>
 
-// Po default-u učitaj Home
-loadSection('home/index.html');
-</script>
+        <section id="kontakt-section" class="section-content">
+            <h2>Kontaktirajte Nas</h2>
+            <p>Ovo je sadržaj iz foldera "kontakt/". Forma za kontakt, adresa i brojevi telefona.</p>
+        </section>
+
+        <section id="footer-section" class="section-content">
+            <h2>Informacije iz Footera</h2>
+            <p>Ovo je sadržaj iz foldera "footer/". Pravne informacije, linkovi ka društvenim mrežama, itd.</p>
+        </section>
+
+        <section id="sections-section" class="section-content">
+            <h2>Ostale Sekcije</h2>
+            <p>Ovo je sadržaj iz foldera "sections/". Dodatni ili opšti sadržaj projekta.</p>
+        </section>
+    </main>
+
+    <script>
+        function showSection(sectionName) {
+            // 1. Dohvatite sve elemente sekcija
+            const sections = document.querySelectorAll('.section-content');
+
+            // 2. Prođite kroz sve sekcije i uklonite klasu 'active' (sakrijte ih)
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // 3. Kreirajte ID ciljane sekcije (npr. 'home' -> 'home-section')
+            const targetSectionId = sectionName + '-section';
+            const targetSection = document.getElementById(targetSectionId);
+
+            // 4. Proverite da li sekcija postoji i dodajte joj klasu 'active' (prikažite je)
+            if (targetSection) {
+                targetSection.classList.add('active');
+            } else {
+                console.error('Sekcija sa ID-om ' + targetSectionId + ' nije pronađena.');
+            }
+        }
+    </script>
 
 </body>
 </html>
