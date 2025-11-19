@@ -1,66 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automatika Modularno</title>
+<style>
+  body { font-family: Arial, sans-serif; margin:0; padding:0; }
+  header { height: 250px; background-size: cover; background-position: center; transition: background 0.3s ease; }
+  nav { display: flex; flex-wrap: wrap; gap: 10px; padding: 10px; background:#333; }
+  nav button { color:white; background:#555; border:none; padding:10px 15px; cursor:pointer; border-radius:5px; }
+  nav button:hover { background:#777; }
+  #content { padding:20px; }
+</style>
+</head>
+<body>
+
 <header id="header"></header>
 
 <nav>
-  <button data-section="home">Home</button>
-  <button data-section="faq">FAQ</button>
-  <button data-section="services">Services</button>
-  <button data-section="kontakt">Kontakt</button>
-  <button data-section="partners">Partners</button>
-  <button data-section="sections">Sections</button>
-  <button data-section="footer">Footer</button>
+  <button data-section="home/index.html">Home</button>
+  <button data-section="faq/index.html">FAQ</button>
+  <button data-section="services/index.html">Services</button>
+  <button data-section="kontakt.html">Kontakt</button>
+  <button data-section="partners/index.html">Partners</button>
+  <button data-section="sections/index.html">Sections</button>
+  <button data-section="footer/index.html">Footer</button>
 </nav>
 
-<!-- Ovde ubaciš stvarni sadržaj iz svojih fajlova -->
-<section id="home">
-  <!-- Kopiraj sadržaj iz home/index.html ili home.html -->
-</section>
-
-<section id="faq">
-  <!-- Kopiraj sadržaj iz faq/index.html -->
-</section>
-
-<section id="services">
-  <!-- Kopiraj sadržaj iz services/index.html -->
-</section>
-
-<section id="kontakt">
-  <!-- Kopiraj sadržaj iz kontakt/index.html -->
-</section>
-
-<section id="partners">
-  <!-- Kopiraj sadržaj iz partners/index.html -->
-</section>
-
-<section id="sections">
-  <!-- Kopiraj sadržaj iz sections/index.html -->
-</section>
-
-<section id="footer">
-  <!-- Kopiraj sadržaj iz footer/index.html -->
-</section>
+<div id="content">
+  <!-- Sadržaj sekcije će se učitati ovdje -->
+</div>
 
 <script>
 const header = document.getElementById('header');
+const content = document.getElementById('content');
 const buttons = document.querySelectorAll('nav button');
-const sections = document.querySelectorAll('section');
 
-buttons.forEach(button => {
-  button.addEventListener('click', () => {
-    const target = button.dataset.section;
+function loadSection(filePath) {
+  fetch(filePath)
+    .then(res => res.text())
+    .then(html => content.innerHTML = html)
+    .catch(err => content.innerHTML = "<p>Greška pri učitavanju sadržaja.</p>");
+  header.style.backgroundImage = "url('mca.jpg')";
+}
 
-    // Sakrij sve sekcije
-    sections.forEach(sec => sec.style.display = 'none');
-
-    // Prikaži samo izabranu sekciju
-    const activeSection = document.getElementById(target);
-    if(activeSection) activeSection.style.display = 'block';
-
-    // Promeni sliku u headeru
-    header.style.backgroundImage = "url('mca.jpg')";
+// Poveži dugmiće
+buttons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const file = btn.dataset.section;
+    loadSection(file);
   });
 });
 
-// Po default-u prikaži Home
-document.getElementById('home').style.display = 'block';
-header.style.backgroundImage = "url('mca.jpg')";
+// Po default-u učitaj Home
+loadSection('home/index.html');
 </script>
+
+</body>
+</html>
