@@ -1,125 +1,154 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="bs">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Automatika PRO</title>
-  <link rel="stylesheet" href="assets/styles.css">
+  <meta name="description" content="Automatika PRO — industrijska rješenja. Brzi pristup FAQ, uslugama, projektima i kontaktima.">
+  <style>
+    :root{--accent:#0b74de;--muted:#666}
+    *{box-sizing:border-box}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;line-height:1.5;margin:0;color:#222}
+    header{background:#f8f9fb;border-bottom:1px solid #e6e9ee}
+    .topbar{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:10px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{height:56px;width:auto;border-radius:6px;object-fit:cover}
+    nav{display:flex;gap:12px;flex-wrap:wrap}
+    a.btn{padding:8px 12px;border-radius:6px;text-decoration:none;color:var(--accent);border:1px solid transparent}
+    a.btn:hover{background:rgba(11,116,222,0.06)}
+    .lang-select{margin-left:12px}
+    main{max-width:1200px;margin:20px auto;padding:16px}
+    .viewer{width:100%;height:70vh;border:1px solid #e6e9ee;border-radius:8px;overflow:hidden}
+    .controls{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+    .section-list{display:flex;gap:8px;flex-wrap:wrap}
+    .footer{max-width:1200px;margin:24px auto;padding:20px;color:var(--muted);font-size:14px}
+    .mobile-hide{display:inline-block}
+    @media(max-width:720px){
+      .topbar{padding:8px}
+      .brand img{height:40px}
+      .viewer{height:60vh}
+    }
+    /* simple loading indicator */
+    .loader{display:inline-block;width:18px;height:18px;border-radius:50%;border:3px solid #ddd;border-top-color:var(--accent);animation:spin .9s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+  </style>
 </head>
 <body>
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <!-- header image from project root; user asked for MCA.jpg (we use mca.jpg with fallback) -->
+        <img id="heroImg" src="mca.jpg" alt="Automatika PRO" onerror="this.onerror=null; this.src='MCA.jpg'">
+        <div>
+          <h1 style="margin:0;font-size:18px">Automatika PRO</h1>
+          <div style="color:var(--muted);font-size:13px">Industrijska rješenja — automatika, servisi i projekti</div>
+        </div>
+      </div>
 
-<header>
-  <h1>Automatika PRO</h1>
+      <div style="display:flex;align-items:center;gap:12px">
+        <nav aria-label="Glavna navigacija">
+          <a href="#" class="btn" data-path="home/" onclick="loadSection(event,this)">Home</a>
+          <a href="#" class="btn" data-path="services/" onclick="loadSection(event,this)">Services</a>
+          <a href="#" class="btn" data-path="sections/" onclick="loadSection(event,this)">Sections</a>
+          <a href="#" class="btn" data-path="faq/" onclick="loadSection(event,this)">FAQ</a>
+          <a href="#" class="btn" data-path="kontakt.html" onclick="loadSection(event,this)">Kontakt</a>
+          <a href="#" class="btn" data-path="partners/" onclick="loadSection(event,this)">Partners</a>
+        </nav>
 
-  <nav>
-    <button data-path="home/home.html">Početna</button>
-    <button data-path="sections/aboutus.html">O nama</button>
-    <button data-path="services/services.html">Usluge</button>
-    <button data-path="faq/faq.html">FAQ</button>
-    <button data-path="partners/partners.html">Partneri</button>
+        <select id="lang" class="lang-select" aria-label="Odaberi jezik" onchange="changeLang(this.value)">
+          <option value="bs">Bosanski</option>
+          <option value="en">English</option>
+          <option value="de">Deutsch</option>
+        </select>
+      </div>
+    </div>
+  </header>
 
-    <!-- ROOT kontakt sekcija -->
-    <button data-path="contact.html">Kontakt</button>
-  </nav>
+  <main>
+    <div class="controls">
+      <div class="section-list">
+        <!-- direct quick links to files/folders from your tree -->
+        <a href="#" class="btn" data-path="index.html" onclick="loadSection(event,this)">Index</a>
+        <a href="#" class="btn" data-path="home/" onclick="loadSection(event,this)">Home Folder</a>
+        <a href="#" class="btn" data-path="faq/" onclick="loadSection(event,this)">FAQ</a>
+        <a href="#" class="btn" data-path="services-de.html" onclick="loadSection(event,this)">Services (DE)</a>
+        <a href="#" class="btn" data-path="reviews-en.html" onclick="loadSection(event,this)">Reviews EN</a>
+        <a href="#" class="btn" data-path="reviews-sr.html" onclick="loadSection(event,this)">Reviews SR</a>
+        <a href="#" class="btn" data-path="sitemap.xml" onclick="loadSection(event,this)">Sitemap</a>
+      </div>
+      <div style="margin-left:auto;color:var(--muted);font-size:13px">Viewer: <span id="currentPath">home/</span> <span id="loading" style="display:none;margin-left:8px" class="loader" title="loading"></span></div>
+    </div>
 
-  <div id="languages">
-    <select id="langSelect">
-      <option value="bs">BS</option>
-      <option value="en">EN</option>
-      <option value="de">DE</option>
-    </select>
-  </div>
-</header>
+    <!-- content viewer: we use an iframe so relative assets (images) load correctly -->
+    <iframe id="viewer" class="viewer" title="Sadrzaj" src="home/" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
 
-<!-- Dinamički sadržaj -->
-<div id="content"></div>
+    <section style="margin-top:16px">
+      <h2>Brzi pregled fajlova</h2>
+      <p style="color:var(--muted)">Ovo index.html datoteka omogućava pregled i brzo otvaranje svih važnijih sekcija/stranica iz korijena projekta. Ako neka sekcija nema index.html, iframe će pokušati otvoriti folder — u nekim serverima to generira listing, a u drugim će vratiti 403/404. U tom slučaju linkajte direktan fajl (npr. kontakt.html).</p>
+    </section>
+  </main>
 
-<!-- Footer -->
-<footer id="footer"></footer>
+  <footer class="footer">
+    <div>© <span id="year"></span> Automatika PRO — Sva prava zadržana.</div>
+    <div style="margin-top:6px">Brzi linkovi: <a href="kontakt.html">Kontakt</a> · <a href="services-de.html">Services (DE)</a> · <a href="robots.txt">robots.txt</a></div>
+  </footer>
 
-<script>
-// ================================
-// Dynamic section loader
-// ================================
-async function loadSection(path) {
-  try {
-    const response = await fetch(path);
-    if (!response.ok) throw new Error("404 - File not found: " + path);
-    const html = await response.text();
-    document.getElementById("content").innerHTML = html;
-  } catch (err) {
-    document.getElementById("content").innerHTML =
-      "<p style='padding:20px;color:red'>" + err + "</p>";
-  }
-}
+  <script>
+    // small helper to load sections into iframe. We avoid fetch to preserve relative paths for images/css.
+    const viewer = document.getElementById('viewer');
+    const currentPathEl = document.getElementById('currentPath');
+    const loading = document.getElementById('loading');
 
-// ================================
-// Load footer
-// ================================
-async function loadFooter() {
-  try {
-    const res = await fetch("footer/footer.html");
-    const html = await res.text();
-    document.getElementById("footer").innerHTML = html;
-  } catch {
-    document.getElementById("footer").innerHTML = "<p style='color:red'>Footer nije pronađen.</p>";
-  }
-}
+    function setLoading(on){ loading.style.display = on ? 'inline-block' : 'none'; }
 
-// ================================
-// Navigation buttons
-// ================================
-document.querySelectorAll("nav button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const section = btn.dataset.path;
-    loadSection(section);
-  });
-});
+    function normalizePath(p){
+      if(!p) return 'home/';
+      // if it's a folder and doesn't end with slash, add it
+      if(!p.includes('.') && !p.endsWith('/')) return p + '/';
+      return p;
+    }
 
-// ================================
-// Default section
-// (promijeni ako želiš root kontakt kao početnu)
-// ================================
-loadSection("home/home.html");
+    function loadSection(e, el){
+      if(e) e.preventDefault();
+      const path = el.getAttribute('data-path') || el.getAttribute('href');
+      const normalized = normalizePath(path);
+      currentPathEl.textContent = normalized;
+      setLoading(true);
+      // set src and wait a little for visual loading indicator
+      viewer.src = normalized;
+      // monitor load event
+      viewer.onload = () => { setLoading(false); };
+      // fallback to stop loader after 6s
+      setTimeout(()=> setLoading(false), 6000);
+    }
 
-// Footer load
-loadFooter();
+    function changeLang(code){
+      // basic language switcher: redirect to possible language pages if present
+      if(code === 'en'){
+        // try to open English reviews or a potential 'home/en/'
+        loadSection(null, {getAttribute: ()=>'reviews-en.html'});
+      } else if(code === 'de'){
+        loadSection(null, {getAttribute: ()=>'services-de.html'});
+      } else {
+        loadSection(null, {getAttribute: ()=>'home/'});
+      }
+    }
 
-</script>
+    // set initial year
+    document.getElementById('year').textContent = new Date().getFullYear();
 
+    // initial load already set to home/ by iframe src; update UI accordingly
+    currentPathEl.textContent = 'home/';
+
+    // keyboard shortcuts: numbers 1..6 open main sections
+    document.addEventListener('keydown', (ev)=>{
+      if(ev.key === '1') loadSection(null, {getAttribute: ()=>'home/'});
+      if(ev.key === '2') loadSection(null, {getAttribute: ()=>'services/'});
+      if(ev.key === '3') loadSection(null, {getAttribute: ()=>'sections/'});
+      if(ev.key === '4') loadSection(null, {getAttribute: ()=>'faq/'});
+      if(ev.key === '5') loadSection(null, {getAttribute: ()=>'kontakt.html'});
+      if(ev.key === '6') loadSection(null, {getAttribute: ()=>'partners/'});
+    });
+  </script>
 </body>
 </html>
-  <div id="languages">
-    <select id="langSelect" onchange="changeLanguage(this.value)">
-      <option value="bs">Bosanski</option>
-      <option value="en">English</option>
-      <option value="de">Deutsch</option>
-    </select>
-  </div>
-  <nav>
-    <button onclick="loadHome()">Home</button>
-    <button onclick="loadAbout()">About</button>
-    <button onclick="loadService()">Services</button>
-    <button onclick="loadProjects()">Projects</button>
-    <button onclick="loadContact()">Kontakt</button>
-  </nav>
-</header>
-
-<div id="content"><p>Učitavanje...</p></div>
-<footer id="footer"></footer>
-
-<script>
-let currentLang = "bs";
-let currentSectionFunc = null;
-
-// promjena jezika
-function changeLanguage(lang){
-  currentLang = lang;
-  if(currentSectionFunc) currentSectionFunc();
-}
-
-// generičko učitavanje sekcije
-function loadSection(file){
-  fetch(file)
-    .then(r => r.ok ? r.text() : Promise.reject("Greška: " + file))
-    .then(html => document.getElement
