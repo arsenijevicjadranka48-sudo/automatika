@@ -3,68 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Automatika Debug</title>
+  <title>Automatika</title>
 
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
     header, footer { background-color: #222; color: #fff; padding: 20px; }
     nav a { color: #fff; margin-right: 15px; text-decoration: none; font-weight: bold; }
     nav a:hover { text-decoration: underline; }
-    section { padding: 20px; border-bottom: 1px solid #ccc; }
-    #debug-log { background: #f2f2f2; padding: 10px; margin: 10px 0; font-family: monospace; }
-    .success { color: green; }
-    .error { color: red; }
+    section { padding: 20px; }
   </style>
 </head>
 <body>
 
-<h2>DEBUG LOG</h2>
-<div id="debug-log"></div>
-
 <!-- HEADER -->
-<section data-include="/automatika/header/header.html"></section>
+<section data-include="header/header.html"></section>
 
 <!-- HOME SEKCIJE -->
-<section data-include="/automatika/home/home.html"></section>
-<section data-include="/automatika/home/home-de.html"></section>
+<section data-include="home/home.html"></section>
+<section data-include="home/home-de.html"></section>
 
 <!-- ABOUT SEKCIJA -->
-<section data-include="/automatika/sections/about.html"></section>
+<section data-include="sections/about.html"></section>
 
 <!-- KONTAKT SEKCIJE -->
-<section data-include="/automatika/kontakt/contact.html"></section>
-<section data-include="/automatika/kontakt/contactde.html"></section>
-<section data-include="/automatika/kontakt/contacten.html"></section>
+<section data-include="kontakt/contact.html"></section>
+<section data-include="kontakt/contactde.html"></section>
+<section data-include="kontakt/contacten.html"></section>
 
 <!-- FAQ SEKCIJE -->
-<section data-include="/automatika/faq/faq.html"></section>
-<section data-include="/automatika/faq/faqde.html"></section>
-<section data-include="/automatika/faq/faqen.html"></section>
+<section data-include="faq/faq.html"></section>
+<section data-include="faq/faqde.html"></section>
+<section data-include="faq/faqen.html"></section>
 
 <!-- FOOTER -->
-<section data-include="/automatika/footer/footer.html"></section>
+<section data-include="footer/footer.html"></section>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const sections = document.querySelectorAll("[data-include]");
-  const debugLog = document.getElementById("debug-log");
-
   sections.forEach(async (el) => {
     const path = el.getAttribute("data-include").trim();
     try {
       const res = await fetch(path);
       if (!res.ok) {
-        el.innerHTML = `<p style="color:red;">❌ Greška: ne mogu učitati ${path} (status: ${res.status})</p>`;
-        debugLog.innerHTML += `<div class="error">❌ Greška: ${path} (status: ${res.status})</div>`;
+        el.innerHTML = `<p style="color:red;">Greška: ne mogu učitati ${path} (status: ${res.status})</p>`;
         console.error("Fetch error:", path, res.status);
         return;
       }
       const html = await res.text();
       el.innerHTML = html;
-      debugLog.innerHTML += `<div class="success">✅ Učitano: ${path}</div>`;
     } catch (err) {
-      el.innerHTML = `<p style="color:red;">❌ Greška prilikom učitavanja ${path}</p>`;
-      debugLog.innerHTML += `<div class="error">❌ Fetch error: ${path} (${err})</div>`;
+      el.innerHTML = `<p style="color:red;">Greška prilikom učitavanja ${path}</p>`;
       console.error("Fetch error:", path, err);
     }
   });
