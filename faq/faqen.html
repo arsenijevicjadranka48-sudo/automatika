@@ -1,19 +1,52 @@
-<section id="faq">
-  <h2>Frequently Asked Questions</h2>
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatika</title>
 
-  <div class="faq-item">
-    <h3>What types of systems does Automatika PRO develop?</h3>
-    <p>We develop industrial, IoT, and smart systems, including production automation and access control.</p>
-  </div>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        header { background: #222; color: #fff; padding: 20px; }
+        nav a { color: #fff; margin-right: 15px; text-decoration: none; font-weight: bold; }
+        nav a:hover { text-decoration: underline; }
+        section { padding: 20px; }
+    </style>
+</head>
 
-  <div class="faq-item">
-    <h3>How long does a project implementation take?</h3>
-    <p>The duration depends on project complexity, but typically takes 2 to 8 weeks.</p>
-  </div>
+<body>
 
-  <div class="faq-item">
-    <h3>Do you provide support after implementation?</h3>
-    <p>Yes, we provide maintenance and technical support for all implemented systems.</p>
-  </div>
+    <!-- HEADER -->
+    <header>
+        <h1>Automatika</h1>
+        <nav>
+            <a href="#faq-bs">FAQ (BS)</a>
+            <a href="#faq-de">FAQ (DE)</a>
+            <a href="#faq-en">FAQ (EN)</a>
+        </nav>
+    </header>
 
-</section>
+    <!-- SEKCIJE KOJE SE UČITAVAJU -->
+    <section id="faq-bs"></section>
+    <section id="faq-de"></section>
+    <section id="faq-en"></section>
+
+    <!-- FUNKCIJA ZA UČITAVANJE SEKCIJA -->
+    <script>
+        function loadSection(sectionPath, targetId) {
+            fetch(sectionPath)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(targetId).innerHTML = data;
+                })
+                .catch(error => console.error("Greška:", error));
+        }
+
+        // UČITAVANJE 3 FAQ SEKCIJE
+        loadSection("faq/faq.html", "faq-bs");
+        loadSection("faq/faqde.html", "faq-de");
+        loadSection("faq/faqen.html", "faq-en");
+    </script>
+
+</body>
+</html>
