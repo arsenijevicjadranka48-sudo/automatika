@@ -8,59 +8,139 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #f3f3f3;
+            background: #f5f5f5;
             padding: 40px;
             text-align: center;
         }
+
         h1 {
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
-        .btn-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            max-width: 900px;
-            margin: 0 auto;
+
+        /* Red dugmadi */
+        .menu-row {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 10px;
+            white-space: nowrap;
         }
-        button {
-            padding: 15px;
-            background: #0077cc;
+
+        .menu-row button {
+            padding: 12px 20px;
+            background: #0066cc;
             color: white;
             border: none;
             border-radius: 6px;
-            font-size: 17px;
+            font-size: 16px;
             cursor: pointer;
+            flex-shrink: 0;
             transition: 0.2s;
         }
-        button:hover {
-            background: #005fa3;
+
+        .menu-row button:hover {
+            background: #004f9e;
+        }
+
+        /* Selektor jezika */
+        #language-select {
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 
 <body>
 
-    <h1>Automatika – Stranice</h1>
+    <h1>Automatika – Navigacija</h1>
 
-    <div class="btn-container">
-        <button onclick="openPage('index.html')">Početna</button>
-        <button onclick="openPage('kontakt.html')">Kontakt</button>
-        <button onclick="openPage('reviews-sr.html')">Recenzije (SR)</button>
-        <button onclick="openPage('reviews-en.html')">Recenzije (EN)</button>
-        <button onclick="openPage('services-de.html')">Usluge (DE)</button>
-        <button onclick="openPage('faq/index.html')">FAQ</button>
-        <button onclick="openPage('home/index.html')">Home</button>
-        <button onclick="openPage('kontakt/index.html')">Kontakt (folder)</button>
-        <button onclick="openPage('partners/index.html')">Partneri</button>
-        <button onclick="openPage('sections/index.html')">Sekcije</button>
-        <button onclick="openPage('services/index.html')">Usluge</button>
-        <button onclick="openPage('projekat4/index.html')">Projekat 4</button>
-        <button onclick="openPage('projekat5/index.html')">Projekat 5</button>
+    <!-- JEZICI -->
+    <select id="language-select" onchange="changeLanguage()">
+        <option value="sr">Srpski</option>
+        <option value="en">English</option>
+        <option value="de">Deutsch</option>
+    </select>
+
+    <!-- SVA DUGMAD U JEDNOM REDU -->
+    <div class="menu-row">
+        <button onclick="openPage('index')">Početna</button>
+        <button onclick="openPage('kontakt')">Kontakt</button>
+        <button onclick="openPage('reviews')">Recenzije</button>
+        <button onclick="openPage('services')">Usluge</button>
+        <button onclick="openPage('faq')">FAQ</button>
+        <button onclick="openPage('partners')">Partneri</button>
+        <button onclick="openPage('home')">Home</button>
+        <button onclick="openPage('sections')">Sekcije</button>
+        <button onclick="openPage('projekat4')">Projekat 4</button>
+        <button onclick="openPage('projekat5')">Projekat 5</button>
     </div>
 
     <script>
-        function openPage(page) {
-            window.location.href = page;
+        // Globalni jezik (default SR)
+        let lang = "sr";
+
+        function changeLanguage() {
+            lang = document.getElementById("language-select").value;
+        }
+
+        // Funkcija za pravilno otvaranje stranica po jeziku
+        function openPage(name) {
+            const pages = {
+                index: {
+                    sr: "index.html",
+                    en: "index.html",
+                    de: "index.html"
+                },
+                kontakt: {
+                    sr: "kontakt.html",
+                    en: "kontakt/index.html",
+                    de: "kontakt/index.html"
+                },
+                reviews: {
+                    sr: "reviews-sr.html",
+                    en: "reviews-en.html",
+                    de: "reviews-en.html"
+                },
+                services: {
+                    sr: "services/index.html",
+                    en: "services/index.html",
+                    de: "services-de.html"
+                },
+                faq: {
+                    sr: "faq/index.html",
+                    en: "faq/index.html",
+                    de: "faq/index.html"
+                },
+                partners: {
+                    sr: "partners/index.html",
+                    en: "partners/index.html",
+                    de: "partners/index.html"
+                },
+                home: {
+                    sr: "home/index.html",
+                    en: "home/index.html",
+                    de: "home/index.html"
+                },
+                sections: {
+                    sr: "sections/index.html",
+                    en: "sections/index.html",
+                    de: "sections/index.html"
+                },
+                projekat4: {
+                    sr: "projekat4/index.html",
+                    en: "projekat4/index.html",
+                    de: "projekat4/index.html"
+                },
+                projekat5: {
+                    sr: "projekat5/index.html",
+                    en: "projekat5/index.html",
+                    de: "projekat5/index.html"
+                }
+            };
+
+            window.location.href = pages[name][lang];
         }
     </script>
 
