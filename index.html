@@ -1,84 +1,68 @@
 <!DOCTYPE html>
-<html lang="bs">
+<html lang="sr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Automatika</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatika – Navigacija</title>
 
-  <!-- Osnovni stilovi -->
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; scroll-behavior: smooth; }
-    header, footer { background-color: #222; color: #fff; padding: 20px; position: sticky; top: 0; z-index: 1000; }
-    nav { display: flex; justify-content: center; }
-    nav a {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #007BFF;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      margin: 0 5px;
-      transition: background 0.3s;
-    }
-    nav a:hover { background-color: #0056b3; }
-    section { padding: 60px 20px; border-bottom: 1px solid #ccc; }
-  </style>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f3f3;
+            padding: 40px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 30px;
+        }
+        .btn-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        button {
+            padding: 15px;
+            background: #0077cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 17px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: #005fa3;
+        }
+    </style>
 </head>
+
 <body>
 
-<!-- HEADER sa navigacijom -->
-<header>
-  <nav>
-    <a href="#home">Početna</a>
-    <a href="#about">O nama</a>
-    <a href="#services">Usluge</a>
-    <a href="#kontakt">Kontakt</a>
-    <a href="#faq">FAQ</a>
-  </nav>
-</header>
+    <h1>Automatika – Stranice</h1>
 
-<!-- HOME SEKCIJE -->
-<section id="home" data-include="home/home.html"></section>
-<section id="home-de" data-include="home/home-de.html"></section>
+    <div class="btn-container">
+        <button onclick="openPage('index.html')">Početna</button>
+        <button onclick="openPage('kontakt.html')">Kontakt</button>
+        <button onclick="openPage('reviews-sr.html')">Recenzije (SR)</button>
+        <button onclick="openPage('reviews-en.html')">Recenzije (EN)</button>
+        <button onclick="openPage('services-de.html')">Usluge (DE)</button>
+        <button onclick="openPage('faq/index.html')">FAQ</button>
+        <button onclick="openPage('home/index.html')">Home</button>
+        <button onclick="openPage('kontakt/index.html')">Kontakt (folder)</button>
+        <button onclick="openPage('partners/index.html')">Partneri</button>
+        <button onclick="openPage('sections/index.html')">Sekcije</button>
+        <button onclick="openPage('services/index.html')">Usluge</button>
+        <button onclick="openPage('projekat4/index.html')">Projekat 4</button>
+        <button onclick="openPage('projekat5/index.html')">Projekat 5</button>
+    </div>
 
-<!-- ABOUT SEKCIJA -->
-<section id="about" data-include="sections/about.html"></section>
-
-<!-- KONTAKT SEKCIJE -->
-<section id="kontakt" data-include="kontakt/contact.html"></section>
-<section data-include="kontakt/contactde.html"></section>
-<section data-include="kontakt/contacten.html"></section>
-
-<!-- FAQ SEKCIJE -->
-<section id="faq" data-include="faq/faq.html"></section>
-<section data-include="faq/faqde.html"></section>
-<section data-include="faq/faqen.html"></section>
-
-<!-- FOOTER -->
-<section data-include="footer/footer.html"></section>
-
-<!-- Skripta za učitavanje sekcija -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const sections = document.querySelectorAll("[data-include]");
-  sections.forEach(async (el) => {
-    const path = el.getAttribute("data-include").trim();
-    try {
-      const res = await fetch(path);
-      if (!res.ok) {
-        el.innerHTML = `<p style="color:red;">Greška: ne mogu učitati ${path} (status: ${res.status})</p>`;
-        console.error("Fetch error:", path, res.status);
-        return;
-      }
-      const html = await res.text();
-      el.innerHTML = html;
-    } catch (err) {
-      el.innerHTML = `<p style="color:red;">Greška prilikom učitavanja ${path}</p>`;
-      console.error("Fetch error:", path, err);
-    }
-  });
-});
-</script>
+    <script>
+        function openPage(page) {
+            window.location.href = page;
+        }
+    </script>
 
 </body>
 </html>
