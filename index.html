@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navigacija</title>
-
+    <title>Automatika – Navigacija</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +12,7 @@
             text-align: center;
         }
 
-        /* Red sa dugmadima */
+        /* Red dugmadi */
         .menu {
             display: flex;
             flex-direction: row;
@@ -38,7 +37,7 @@
             background: #005fa3;
         }
 
-        /* Jezički dropdown */
+        /* Dropdown za jezik */
         #lang {
             margin-bottom: 20px;
             padding: 10px 15px;
@@ -47,17 +46,16 @@
         }
     </style>
 </head>
-
 <body>
 
-    <!-- JEDAN dropdown za jezike -->
+    <!-- Dropdown za izbor jezika -->
     <select id="lang">
         <option value="sr">Srpski</option>
         <option value="en">English</option>
         <option value="de">Deutsch</option>
     </select>
 
-    <!-- SVA dugmad U JEDNOM REDU -->
+    <!-- Sva dugmad u jednom redu -->
     <div class="menu">
         <button onclick="go('index')">Početna</button>
         <button onclick="go('kontakt')">Kontakt</button>
@@ -76,56 +74,16 @@
             const lang = document.getElementById("lang").value;
 
             const map = {
-                index: {
-                    sr: "index.html",
-                    en: "index.html",
-                    de: "index.html"
-                },
-                kontakt: {
-                    sr: "kontakt.html",
-                    en: "kontakt/index.html",
-                    de: "kontakt/index.html"
-                },
-                reviews: {
-                    sr: "reviews-sr.html",
-                    en: "reviews-en.html",
-                    de: "reviews-en.html"
-                },
-                services: {
-                    sr: "services/index.html",
-                    en: "services/index.html",
-                    de: "services-de.html"
-                },
-                faq: {
-                    sr: "faq/index.html",
-                    en: "faq/index.html",
-                    de: "faq/index.html"
-                },
-                partners: {
-                    sr: "partners/index.html",
-                    en: "partners/index.html",
-                    de: "partners/index.html"
-                },
-                home: {
-                    sr: "home/index.html",
-                    en: "home/index.html",
-                    de: "home/index.html"
-                },
-                sections: {
-                    sr: "sections/index.html",
-                    en: "sections/index.html",
-                    de: "sections/index.html"
-                },
-                projekat4: {
-                    sr: "projekat4/index.html",
-                    en: "projekat4/index.html",
-                    de: "projekat4/index.html"
-                },
-                projekat5: {
-                    sr: "projekat5/index.html",
-                    en: "projekat5/index.html",
-                    de: "projekat5/index.html"
-                }
+                index: { sr: "index.html", en: "index.html", de: "index.html" },
+                kontakt: { sr: "kontakt.html", en: "kontakt/contacten.html", de: "kontakt/contacten.html" },
+                reviews: { sr: "reviews-sr.html", en: "reviews-en.html", de: "reviews-en.html" },
+                services: { sr: "services/services.html", en: "services/servicen.html", de: "services-de.html" },
+                faq: { sr: "faq/faq.html", en: "faq/faq-en.html", de: "faq/faq-de.html" },
+                partners: { sr: "partners/partners.html", en: "partners/partners-en.html", de: "partners/partners-de.html" },
+                home: { sr: "home/home.html", en: "home/home-en.html", de: "home/home-de.html" },
+                sections: { sr: "sections/about-bs.html", en: "sections/about-en.html", de: "sections/about-de.html" },
+                projekat4: { sr: "projekat4/", en: "projekat4/", de: "projekat4/" },
+                projekat5: { sr: "projekat5/", en: "projekat5/", de: "projekat5/" }
             };
 
             window.location.href = map[page][lang];
