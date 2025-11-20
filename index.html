@@ -3,91 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automatika – Navigacija</title>
+    <title>Navigacija</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            padding: 40px;
+            padding: 30px;
+            background: #f0f0f0;
             text-align: center;
         }
 
-        h1 {
-            margin-bottom: 25px;
-        }
-
-        /* Red dugmadi */
-        .menu-row {
+        /* Red sa dugmadima */
+        .menu {
             display: flex;
+            flex-direction: row;
             gap: 12px;
             overflow-x: auto;
             padding: 10px;
             white-space: nowrap;
         }
 
-        .menu-row button {
+        .menu button {
             padding: 12px 20px;
-            background: #0066cc;
+            background: #0077cc;
             color: white;
             border: none;
             border-radius: 6px;
-            font-size: 16px;
             cursor: pointer;
+            font-size: 16px;
             flex-shrink: 0;
-            transition: 0.2s;
         }
 
-        .menu-row button:hover {
-            background: #004f9e;
+        .menu button:hover {
+            background: #005fa3;
         }
 
-        /* Selektor jezika */
-        #language-select {
+        /* Jezički dropdown */
+        #lang {
+            margin-bottom: 20px;
             padding: 10px 15px;
             font-size: 16px;
             border-radius: 6px;
-            margin-bottom: 20px;
         }
     </style>
 </head>
 
 <body>
 
-    <h1>Automatika – Navigacija</h1>
-
-    <!-- JEZICI -->
-    <select id="language-select" onchange="changeLanguage()">
+    <!-- JEDAN dropdown za jezike -->
+    <select id="lang">
         <option value="sr">Srpski</option>
         <option value="en">English</option>
         <option value="de">Deutsch</option>
     </select>
 
-    <!-- SVA DUGMAD U JEDNOM REDU -->
-    <div class="menu-row">
-        <button onclick="openPage('index')">Početna</button>
-        <button onclick="openPage('kontakt')">Kontakt</button>
-        <button onclick="openPage('reviews')">Recenzije</button>
-        <button onclick="openPage('services')">Usluge</button>
-        <button onclick="openPage('faq')">FAQ</button>
-        <button onclick="openPage('partners')">Partneri</button>
-        <button onclick="openPage('home')">Home</button>
-        <button onclick="openPage('sections')">Sekcije</button>
-        <button onclick="openPage('projekat4')">Projekat 4</button>
-        <button onclick="openPage('projekat5')">Projekat 5</button>
+    <!-- SVA dugmad U JEDNOM REDU -->
+    <div class="menu">
+        <button onclick="go('index')">Početna</button>
+        <button onclick="go('kontakt')">Kontakt</button>
+        <button onclick="go('reviews')">Recenzije</button>
+        <button onclick="go('services')">Usluge</button>
+        <button onclick="go('faq')">FAQ</button>
+        <button onclick="go('partners')">Partneri</button>
+        <button onclick="go('home')">Home</button>
+        <button onclick="go('sections')">Sekcije</button>
+        <button onclick="go('projekat4')">Projekat 4</button>
+        <button onclick="go('projekat5')">Projekat 5</button>
     </div>
 
     <script>
-        // Globalni jezik (default SR)
-        let lang = "sr";
+        function go(page) {
+            const lang = document.getElementById("lang").value;
 
-        function changeLanguage() {
-            lang = document.getElementById("language-select").value;
-        }
-
-        // Funkcija za pravilno otvaranje stranica po jeziku
-        function openPage(name) {
-            const pages = {
+            const map = {
                 index: {
                     sr: "index.html",
                     en: "index.html",
@@ -140,7 +128,7 @@
                 }
             };
 
-            window.location.href = pages[name][lang];
+            window.location.href = map[page][lang];
         }
     </script>
 
